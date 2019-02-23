@@ -11,6 +11,7 @@ import skimage.io as io
 from skimage.transform import resize
 import numpy as np
 
+
 # Define Output Image Size Here
 ROWS = 240
 COLS = 360
@@ -43,6 +44,35 @@ def read_from_folder(filename):
         
         
     return(images)
+    
+
+def read_nonbullying(filename, number):
+    a = sorted(os.listdir(filename))
+    
+    m = len(a)
+    
+    n = np.random.randint(0,m, size = (number))
+    
+    b = len(n)
+    
+    images = np.zeros(shape = (b, ROWS, COLS, 3))
+    
+    for i in range(b):
+        c = a[n[i]]
+        d = os.path.join(filename, c)
+        img = io.imread(d)
+        if(len(img.shape) == 2):
+            temp = resize(img, output_shape = (ROWS, COLS))
+            images[i, :, :, 0] = temp
+            images[i, :, :, 1] = temp
+            images[i, :, :, 2] = temp
+            continue
+        
+        img = resize(img, output_shape = (ROWS, COLS, 3))
+        images[i, :, :, :] = img
+        
+    return(images)
+        
         
 # Read Folder_1
 filename_1 = 'F:\Clemson University\ECE 8810_Deep Learning\Project\gossiping\Folder_1'
@@ -103,6 +133,7 @@ filename_10 = 'F:\Clemson University\ECE 8810_Deep Learning\Stanford40\JPEGImage
 a10 = sorted(os.listdir(filename_10))
 l10 = len(a10)
 
+
 # Bullying images
 D1 = np.zeros(shape = (L9, ROWS, COLS, 3))
 
@@ -125,5 +156,5 @@ D1[L7:L8, :, :, :] = read_from_folder(filename_8)
 D1[L8:L9, :, :, :] = read_from_folder(filename_9)
 
 # Non - bullying images
-D2 = np.zeros(shape = (l10, ROWS, COLS, 3))
-D2 = read_from_folder(filename_10)
+D2 = np.zeros(shape = (L9, ROWS, COLS, 3))
+D2 = read_nonbullying(filename_10, 10)
