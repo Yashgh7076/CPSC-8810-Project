@@ -156,5 +156,6 @@ D1[L7:L8, :, :, :] = read_from_folder(filename_8)
 D1[L8:L9, :, :, :] = read_from_folder(filename_9)
 
 # Non - bullying images
-D2 = np.zeros(shape = (L9, ROWS, COLS, 3))
-D2 = read_nonbullying(filename_10, 10)
+number = 10 # Number of non - bullying images needed
+D2 = np.zeros(shape = (number, ROWS, COLS, 3))
+D2 = read_nonbullying(filename_10, number)
