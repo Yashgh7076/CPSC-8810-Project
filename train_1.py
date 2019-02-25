@@ -13,6 +13,7 @@ import numpy as np
 
 # Libraries for training and plotting
 import tensorflow as tf
+# tf.set_random_seed(0) # Sets the graph level seed
 
 
 # Define Output Image Size Here
@@ -210,16 +211,25 @@ D2 = np.zeros(shape = (number, ROWS, COLS, 3))
 D2 = read_nonbullying(filename_10, number)
 
 # Full Dataset
+temp = np.zeros(shape = (L9 + number, ROWS, COLS, 3))
 D = np.zeros(shape = (L9 + number, ROWS, COLS, 3))
-D[0:L9,:,:,:] = D1
-D[L9:L9 + number,:,:,:] = D2
+
+temp[0:L9,:,:,:] = D1
+temp[L9:L9 + number,:,:,:] = D2
+
+# Randomly shuffle the dataset
+indices = np.arange(L9 + number)
+np.random.shuffle(indices)
+D = temp[indices, :, :, :]
 
 del D1
 del D2
+del temp
 
 # Create labels Bullying => 1 // Non - bullying => 0
 labels = np.zeros(shape = (L9 + number), dtype = np.uint8)
 labels[0:L9] = 1
+labels = labels[indices]
 
 # Create placeholders
 X = tf. placeholder(tf.float32, [None, ROWS, COLS, 3])
@@ -260,10 +270,10 @@ B5 = tf.Variable(tf.constant(0.1, tf.float32, shape = [2]))
 # Create model
 # CNN => 2 Convolutional Layers // 1 Fully Connected Layer
 Y1 = tf.nn.relu(tf.nn.conv2d(X, W1, strides = [1,1,1,1], padding = 'SAME') + B1)
-Y1_max = tf.nn.max_pool(Y1, ksize = [1,2,2,1], strides = [1,1,1,1], padding = 'SAME')
+Y1_max = tf.nn.max_pool(Y1, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
 
 Y2 = tf.nn.relu(tf.nn.conv2d(Y1_max, W2, strides = [1,1,1,1], padding = 'SAME') + B2)
-Y2_max = tf.nn.max_pool(Y2, ksize = [1,2,2,1], strides = [1,1,1,1], padding = 'SAME')
+Y2_max = tf.nn.max_pool(Y2, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
 
 YY = tf.reshape(Y2_max, shape = [-1, 24 * 16 * depth_2])
 Y4 = tf.nn.relu(tf.matmul(YY, W4) + B4)
@@ -291,7 +301,7 @@ init = tf.global_variables_initializer()
 sess = tf.Session()
 sess.run(init)
 
-for epoch in range(10):
+for epoch in range(100):
     batch = 1
     train_loss = 0
     train_acc = 0
@@ -303,23 +313,23 @@ for epoch in range(10):
         #start, stop, step
         batch_X, batch_Y = get_next_batch(i, D, labels, batch_size)
         sess.run(train_step,feed_dict = {X: batch_X, Y: batch_Y})
-        a,c = sess.run([accuracy,cross_entropy], feed_dict = D)
+        a,c = sess.run([accuracy,cross_entropy], feed_dict = {X: batch_X, Y: batch_Y})
         train_acc = train_acc + a
         train_loss = train_loss + c
     
-        test_data = {X: D, Y:labels}
-        a,c = sess.run([accuracy,cross_entropy], feed_dict = test_data)
-        test_acc = test_acc + a
-        test_loss = test_loss + c
+        #test_data = {X: D, Y:labels}
+        #a,c = sess.run([accuracy,cross_entropy], feed_dict = test_data)
+        #test_acc = test_acc + a
+        #test_loss = test_loss + c
         batch = batch + 1
         
     train_loss = train_loss/batch
     train_acc = train_acc/batch
     
-    test_loss = test_loss/batch
-    test_acc = test_acc/batch
+    #test_loss = test_loss/batch
+    #test_acc = test_acc/batch
     
     print("Epoch",epoch + 1,"Train Loss",train_loss,"Train Acc",train_acc)
-    print("Epoch",epoch + 1,"Test Loss",test_loss,"Test Acc",test_acc)
+    #print("Epoch",epoch + 1,"Test Loss",test_loss,"Test Acc",test_acc)
     print("\n")
 
