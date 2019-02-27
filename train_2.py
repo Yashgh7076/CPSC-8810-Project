@@ -1,5 +1,9 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Feb 27 17:33:48 2019
 
-
+@author: Eshaa
+"""
 
 # Libraries for reading images
 import os
@@ -120,64 +124,66 @@ def get_next_batch(index, dataset, classes, batch_size):
     
     return(X_batch,Y_batch) 
         
+
 # Read Folder_1
-filename_1 = 'D:/Eshaa/MS/Semester 2/Deep Learning/Final Project/train+data/gossiping/gossiping/'
+filename_1 = 'F:\Clemson University\ECE 8810_Deep Learning\Project\gossiping\Folder_1'
 a1 = sorted(os.listdir(filename_1))
 l1 = len(a1)
 
 
 # Read Folder_2
-filename_2 = 'D:/Eshaa/MS/Semester 2/Deep Learning/Final Project/train+data/isolation/isolation/'
+filename_2 = 'F:\Clemson University\ECE 8810_Deep Learning\Project\isolation\Folder_1'
 a2 = sorted(os.listdir(filename_2))
 l2 = len(a2)
 L2 = l1 + l2
 
 # Read Folder_3
-filename_3 = 'D:/Eshaa/MS/Semester 2/Deep Learning/Final Project/train+data/laughing/laughing/'
+filename_3 = 'F:\Clemson University\ECE 8810_Deep Learning\Project\laughing\Folder_1'
 a3 = sorted(os.listdir(filename_3))
 l3 = len(a3)
 L3 = l1 + l2 + l3
 
 # Read Folder_4
-filename_4 = 'D:/Eshaa/MS/Semester 2/Deep Learning/Final Project/train+data/pullinghair/pullinghair/'
+filename_4 = 'F:\Clemson University\ECE 8810_Deep Learning\Project\pullinghair\Folder_1'
 a4 = sorted(os.listdir(filename_4))
 l4 = len(a4)
 L4 = l1 + l2 + l3 + l4
 
 # Read Folder_5
-filename_5 = 'D:/Eshaa/MS/Semester 2/Deep Learning/Final Project/train+data/punching/punching/'
+filename_5 = 'F:\Clemson University\ECE 8810_Deep Learning\Project\punching\Folder_1'
 a5 = sorted(os.listdir(filename_5))
 l5 = len(a5)
 L5 = l1 + l2 + l3 + l4 + l5
 
 # Read Folder_6
-filename_6 = 'D:/Eshaa/MS/Semester 2/Deep Learning/Final Project/train+data/quarrel/quarrel/'
+filename_6 = 'F:\Clemson University\ECE 8810_Deep Learning\Project\quarrel\Folder_1'
 a6 = sorted(os.listdir(filename_6))
 l6 = len(a6)
 L6 = l1 + l2 + l3 + l4 + l5 + l6
 
 # Read Folder_7
-filename_7 = 'D:/Eshaa/MS/Semester 2/Deep Learning/Final Project/train+data/Slapping/slapping/'
+filename_7 = 'F:\Clemson University\ECE 8810_Deep Learning\Project\slapping\Folder_1'
 a7 = sorted(os.listdir(filename_7))
 l7 = len(a7)
 L7 = l1 + l2 + l3 + l4 + l5 + l6 + l7
 
 # Read Folder_8
-filename_8 = 'D:/Eshaa/MS/Semester 2/Deep Learning/Final Project/train+data/stabbing/stabbing/'
+filename_8 = 'F:\Clemson University\ECE 8810_Deep Learning\Project\stabbing\Folder_1'
 a8 = sorted(os.listdir(filename_8))
 l8 = len(a8)
 L8 = l1 + l2 + l3 + l4 + l5 + l6 + l7 + l8
 
 # Read Folder_9
-filename_9 = 'D:/Eshaa/MS/Semester 2/Deep Learning/Final Project/train+data/strangle/strangle/'
+filename_9 = 'F:\Clemson University\ECE 8810_Deep Learning\Project\strangle\Folder_1'
 a9 = sorted(os.listdir(filename_9))
 l9 = len(a9)
 L9 = l1 + l2 + l3 + l4 + l5 + l6 + l7 + l8 + l9
 
 # Read Standford 40 Images
-filename_10 = 'D:/Eshaa/MS/Semester 2/Deep Learning/Final Project/Stanford40_JPEGImages/JPEGImages/'
+filename_10 = 'F:\Clemson University\ECE 8810_Deep Learning\Stanford40\JPEGImages'
 a10 = sorted(os.listdir(filename_10))
 l10 = len(a10)
+
 
 
 # Bullying images
@@ -218,9 +224,10 @@ temp[L9:L9 + number,:,:,:] = D2
 indices = np.arange(L9 + number)
 np.random.shuffle(indices)
 D = temp[indices, :, :, :]
-training, test = D[:80,:], D[80:,:]
-print(training)
-print(test)
+
+#training, test = D[:80,:], D[80:,:]
+#print(training)
+#print(test)
 
 del D1
 del D2
@@ -246,7 +253,7 @@ X = tf. placeholder(tf.float32, [None, ROWS, COLS, 3])
 Y = tf.placeholder(tf.uint8,[None])
 depth = 10 # The number of classes
 Y_onehot = tf.one_hot(Y,depth)
-print(Y_onehot.shape)
+#print(Y_onehot.shape)
 #lr = tf.placeholder(tf.float32)
 #pkeep = tf.placeholder(tf.float32)
 pkeep = 0.5
@@ -275,7 +282,7 @@ W4 = tf.Variable(tf.truncated_normal(shape = [24 * 16 * depth_2, fc], stddev = 0
 B4 = tf.Variable(tf.constant(0.1, tf.float32, shape = [fc]))
 # Output Layer
 W5 = tf.Variable(tf.truncated_normal(shape = [fc, 10], stddev = 0.1))
-B5 = tf.Variable(tf.constant(0.1, tf.float32, shape = [2]))
+B5 = tf.Variable(tf.constant(0.1, tf.float32, shape = [10]))
 
 # Create model
 # CNN => 2 Convolutional Layers // 1 Fully Connected Layer
@@ -283,9 +290,9 @@ Y1 = tf.nn.conv2d(X, W1, strides = [1,1,1,1], padding = 'SAME') + B1
 Y1_max = tf.nn.max_pool(Y1, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
 Y1_out = tf.nn.relu(Y1_max)
 
-Y2 = tf.nn.conv2d(Y1_out, W2, strides = [1,1,1,1], padding = 'SAME') + B1
+Y2 = tf.nn.conv2d(Y1_out, W2, strides = [1,1,1,1], padding = 'SAME') + B2
 Y2_max = tf.nn.max_pool(Y2, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
-Y1_out = tf.nn.relu(Y2_max)
+Y2_out = tf.nn.relu(Y2_max)
 
 YY = tf.reshape(Y2_out, shape = [-1, 24 * 16 * depth_2])
 Y4 = tf.nn.relu(tf.matmul(YY, W4) + B4)
@@ -309,11 +316,12 @@ optimizer = tf.train.AdamOptimizer(0.001)
 train_step = optimizer.minimize(cross_entropy)
 
 # Initialization
+saver = tf.train.Saver()
 init = tf.global_variables_initializer()
 sess = tf.Session()
 sess.run(init)
 
-for epoch in range(500):
+for epoch in range(5):
     batch = 1
     train_loss = 0
     train_acc = 0
@@ -328,12 +336,14 @@ for epoch in range(500):
         a,c = sess.run([accuracy,cross_entropy], feed_dict = {X: batch_X, Y: batch_Y})
         train_acc = train_acc + a
         train_loss = train_loss + c
+        save_path = saver.save(sess,"F:\Clemson University\ECE 8810_Deep Learning\Project\model_1.ckpt")
     
         #test_data = {X: D, Y:labels}
         #a,c = sess.run([accuracy,cross_entropy], feed_dict = test_data)
         #test_acc = test_acc + a
         #test_loss = test_loss + c
         batch = batch + 1
+        
         
     train_loss = train_loss/batch
     train_acc = train_acc/batch
@@ -343,5 +353,5 @@ for epoch in range(500):
     
     print("Epoch",epoch + 1,"Train Loss",train_loss,"Train Acc",train_acc)
     #print("Epoch",epoch + 1,"Test Loss",test_loss,"Test Acc",test_acc)
-    print("\n")
-    saver.save(session, 'weights_model') 
+    print("\n")   
+     
