@@ -1,0 +1,149 @@
+# layer 1 weights initialization
+filters_1_1 = filters_1_2 = 64
+
+W1_1 = tf.Variable(tf.truncated_normal(shape = [3, 3, 3, filters_1_1], stddev = 0.1))
+B1_1 = tf.Variable(tf.constant(0.1, tf.float32, shape = [filters_1_1]))
+
+W1_2 = tf.Variable(tf.truncated_normal(shape = [3, 3, filters_1_1, filters_1_2], stddev = 0.1))
+B1_2 = tf.Variable(tf.constant(0.1, tf.float32, shape = [filters_1_2]))
+
+# layer 2 weights initialization
+filters_2_1 = filters_2_2 = 128
+W2_1 = tf.Variable(tf.truncated_normal(shape = [3, 3, filters_1_2, filters_2_1], stddev = 0.1))
+B2_1 = tf.Variable(tf.constant(0.1, tf.float32, shape = [filters_2_1]))
+
+W2_2 = tf.Variable(tf.truncated_normal(shape = [3, 3, filters_2_1, filters_2_2], stddev = 0.1))
+B2_2 = tf.Variable(tf.constant(0.1, tf.float32, shape = [filters_2_2]))
+
+# layer 3 weights initialization
+filters_3_1 = filters_3_2 = 256
+W3_1 = tf.Variable(tf.truncated_normal(shape = [3, 3, filters2_2, filters_3_1], stddev = 0.1))
+B3_1 = tf.Variable(tf.constant(0.1, tf.float32, shape = [filters_3_1]))
+
+W3_2 = tf.Variable(tf.truncated_normal(shape = [3, 3, filters_3_1, filters_3_2], stddev = 0.1))
+B3_2 = tf.Variable(tf.constant(0.1, tf.float32, shape = [filters_3_2]))
+
+# layer 4 weights initialization
+filters_4_1 = filters_4_2 = 512
+W4_1 = tf.Variable(tf.truncated_normal(shape = [3, 3, filters_3_2, filters_4_1], stddev = 0.1))
+B4_1 = tf.Variable(tf.constant(0.1, tf.float32, shape = [filters_4_1]))
+
+W4_2 = tf.Variable(tf.truncated_normal(shape = [3, 3, filters_4_1, filters_4_2], stddev = 0.1))
+B4_2 = tf.Variable(tf.constant(0.1, tf.float32, shape = [filters_4_2]))
+
+# layer 5 weights initialization
+filters_5_1 = filters_5_2 = 512
+W5_1 = tf.Variable(tf.truncated_normal(shape = [3, 3, filters_4_2, filters_5_1], stddev = 0.1))
+B5_1 = tf.Variable(tf.constant(0.1, tf.float32, shape = [filters_5_1]))
+
+W5_2 = tf.Variable(tf.truncated_normal(shape = [3, 3, filters_5_1, filters_5_2], stddev = 0.1))
+B5_2 = tf.Variable(tf.constant(0.1, tf.float32, shape = [filters_5_2]))
+
+fc = 4096
+# Fully Connected Layer Weight Initialization
+WFC_1 = tf.Variable(tf.truncated_normal(shape = [7 * 7 * filters_5_2, fc], stddev = 0.1))
+BFC_1 = tf.Variable(tf.constant(0.1, tf.float32, shape = [fc]))
+
+
+# Fully Connected Layer Weight Initialization
+WFC_2 = tf.Variable(tf.truncated_normal(shape = [fc, fc], stddev = 0.1))
+BFC_2 = tf.Variable(tf.constant(0.1, tf.float32, shape = [fc]))
+
+# Outut Layer Weight Initialization
+WO = tf.Variable(tf.truncated_normal(shape = [fc, 10], stddev = 0.1))
+BO = tf.Variable(tf.constant(0.1, tf.float32, shape = [10]))
+
+
+
+# layer 1 network feed - forward part // X => 4D input tensor
+Y1_1 = tf.nn.relu(tf.nn.conv2d(X, W1_1, strides = [1,1,1,1], padding = 'SAME') + B1_1)
+Y1_2 = tf.nn.relu(tf.nn.conv2d(Y1_1, W1_2, strides = [1,1,1,1], padding = 'SAME') + B1_2)
+Y1_out = tf.nn.max_pool(Y1_2, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
+
+
+
+# layer 2 network feed - forward part // X => 4D input tensor
+Y2_1 = tf.nn.relu(tf.nn.conv2d(Y1_out, W2_1, strides = [1,1,1,1], padding = 'SAME') + B2_1)
+Y2_2 = tf.nn.relu(tf.nn.conv2d(Y2_1, W2_2, strides = [1,1,1,1], padding = 'SAME') + B2_2)
+Y2_out = tf.nn.max_pool(Y2_2, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
+
+
+
+# layer 3 network feed - forward part // X => 4D input tensor
+Y3_1 = tf.nn.relu(tf.nn.conv2d(Y2_out, W3_1, strides = [1,1,1,1], padding = 'SAME') + B3_1)
+Y3_2 = tf.nn.relu(tf.nn.conv2d(Y3_1, W3_2, strides = [1,1,1,1], padding = 'SAME') + B3_2)
+Y3_out = tf.nn.max_pool(Y3_2, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
+
+
+# layer 4 network feed - forward part // X => 4D input tensor
+Y4_1 = tf.nn.relu(tf.nn.conv2d(Y3_out, W4_1, strides = [1,1,1,1], padding = 'SAME') + B4_1)
+Y4_2 = tf.nn.relu(tf.nn.conv2d(Y4_1, W4_2, strides = [1,1,1,1], padding = 'SAME') + B4_2)
+Y4_out = tf.nn.max_pool(Y4_2, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
+
+
+
+# layer 5 network feed - forward part // X => 4D input tensor
+Y5_1 = tf.nn.relu(tf.nn.conv2d(Y4_out, W5_1, strides = [1,1,1,1], padding = 'SAME') + B5_1)
+Y5_2 = tf.nn.relu(tf.nn.conv2d(Y5_1, W5_2, strides = [1,1,1,1], padding = 'SAME') + B5_2)
+Y5_out = tf.nn.max_pool(Y5_2, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
+
+# FC Layers
+YY = tf.reshape(Y5_out, shape = [-1, 7 * 7 * filters_5_2])
+Y6 = tf.nn.relu(tf.matmul(YY, WFC_1) + BFC_1)
+Y6_drop = tf.nn.dropout(Y6, keep_prob = pkeep)
+
+Y7 = tf.nn.relu(tf.matmul(Y6_drop, WFC_2) + BFC_2)
+Y7_drop = tf.nn.dropout(Y7, keep_prob = pkeep)
+
+
+Y_logits= tf.matmul(Y7_drop, WO) + BO
+Y_pred = tf.nn.softmax(Y_logits)
+
+cross_entropy = tf.losses.sparse_softmax_cross_entropy(Y, Y_logits)
+cross_entropy = tf.reduce_mean(cross_entropy)
+
+#Calculate accuracy for each mini batch
+correct_prediction = tf.equal(tf.argmax(Y_pred, 1), tf.argmax(Y_onehot, 1))
+accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+
+#Define optmizer
+optimizer = tf.train.AdamOptimizer(0.001)
+train_step = optimizer.minimize(cross_entropy)
+
+# Initialization
+init = tf.global_variables_initializer()
+sess = tf.Session()
+sess.run(init)
+
+for epoch in range(500):
+    batch = 1
+    train_loss = 0
+    train_acc = 0
+
+    test_loss = 0
+    test_acc = 0
+    
+    for i in range(0, L9 + number, batch_size):
+        #start, stop, step
+        batch_X, batch_Y = get_next_batch(i, D, labels, batch_size)
+        sess.run(train_step,feed_dict = {X: batch_X, Y: batch_Y})
+        a,c = sess.run([accuracy,cross_entropy], feed_dict = {X: batch_X, Y: batch_Y})
+        train_acc = train_acc + a
+        train_loss = train_loss + c
+    
+        #test_data = {X: D, Y:labels}
+        #a,c = sess.run([accuracy,cross_entropy], feed_dict = test_data)
+        #test_acc = test_acc + a
+        #test_loss = test_loss + c
+        batch = batch + 1
+        
+    train_loss = train_loss/batch
+    train_acc = train_acc/batch
+    
+    #test_loss = test_loss/batch
+    #test_acc = test_acc/batch
+    
+    print("Epoch",epoch + 1,"Train Loss",train_loss,"Train Acc",train_acc)
+    #print("Epoch",epoch + 1,"Test Loss",test_loss,"Test Acc",test_acc)
+    print("\n")
+    saver.save(session, 'weights_model') 
