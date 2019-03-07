@@ -131,63 +131,63 @@ def get_next_batch(index, dataset, classes, batch_size):
 
 # Code starts here
 # Read Folder_1
-filename_1 = 'gossiping/'
+filename_1 = 'CPSC_8810/gossiping/'
 a1 = sorted(os.listdir(filename_1))
 l1 = len(a1)
 
 # Read Folder_2
-filename_2 = 'isolation/'
+filename_2 = 'CPSC_8810/isolation/'
 a2 = sorted(os.listdir(filename_2))
 l2 = len(a2)
 L2 = l1 + l2
 
 # Read Folder_3
-filename_3 = 'laughing/'
+filename_3 = 'CPSC_8810/laughing/'
 a3 = sorted(os.listdir(filename_3))
 l3 = len(a3)
 L3 = l1 + l2 + l3
 
 # Read Folder_4
-filename_4 = 'pullinghair/'
+filename_4 = 'CPSC_8810/pullinghair/'
 a4 = sorted(os.listdir(filename_4))
 l4 = len(a4)
 L4 = l1 + l2 + l3 + l4
 
 # Read Folder_5
-filename_5 = 'punching/'
+filename_5 = 'CPSC_8810/punching/'
 a5 = sorted(os.listdir(filename_5))
 l5 = len(a5)
 L5 = l1 + l2 + l3 + l4 + l5
 
 # Read Folder_6
-filename_6 = 'quarrel/'
+filename_6 = 'CPSC_8810/quarrel/'
 a6 = sorted(os.listdir(filename_6))
 l6 = len(a6)
 L6 = l1 + l2 + l3 + l4 + l5 + l6
 
 # Read Folder_7
-filename_7 = 'slapping/'
+filename_7 = 'CPSC_8810/slapping/'
 a7 = sorted(os.listdir(filename_7))
 l7 = len(a7)
 L7 = l1 + l2 + l3 + l4 + l5 + l6 + l7
 
 # Read Folder_8
-filename_8 = 'stabbing/'
+filename_8 = 'CPSC_8810/stabbing/'
 a8 = sorted(os.listdir(filename_8))
 l8 = len(a8)
 L8 = l1 + l2 + l3 + l4 + l5 + l6 + l7 + l8
 
 # Read Folder_9
-filename_9 = 'strangle/'
+filename_9 = 'CPSC_8810/strangle/'
 a9 = sorted(os.listdir(filename_9))
 l9 = len(a9)
 L9 = l1 + l2 + l3 + l4 + l5 + l6 + l7 + l8 + l9
 
 # Read Standford 40 Images
-filename_10 = 'stanford/'
+filename_10 = 'CPSC_8810/JPEGImages/'
 a10 = sorted(os.listdir(filename_10))
 l10 = len(a10)
-number = 10
+number = L9
 
 # Initialize the dataset and label container
 D = np.zeros(shape = (L9 + number, ROWS, COLS, 3))
@@ -226,7 +226,7 @@ labels[L9:L9 + number] = 0
 # Create placeholders
 X = tf. placeholder(tf.float32, [None, ROWS, COLS, 3])
 Y = tf.placeholder(tf.int32,[None])
-depth = 10 # The number of classes
+depth = 2 # The number of classes
 Y_onehot = tf.one_hot(Y,depth)
 # lr = tf.placeholder(tf.float32)
 pkeep = tf.placeholder(tf.float32)
@@ -307,10 +307,13 @@ saver = tf.train.Saver()
 
 batch_size = 64 # 32 // Change code to check if code is in train/test
 
-for epoch in range(125):
+for epoch in range(250):
     batch = 1
     train_loss = 0
     train_acc = 0    
+
+    test_loss = 0
+    test_acc = 0
     
     # Randomly shuffle the dataset
     indices = np.arange(L9 + number)
@@ -337,13 +340,27 @@ for epoch in range(125):
         
     train_loss = train_loss/batch
     train_acc = train_acc/batch
-    save_path = saver.save(sess,"new_model1:/model")
+    save_path = saver.save(sess,"CPSC_8810/model_NB/model_BVNB")
     
-    testdata = {X: test_data, Y:test_labels, pkeep: 1.0}
-    a,c = sess.run([accuracy,cross_entropy], feed_dict = testdata)
-    test_acc = a
-    test_loss = c
+    #testdata = {X: test_data, Y:test_labels, pkeep: 1.0}
+    #a,c = sess.run([accuracy,cross_entropy], feed_dict = testdata)
+    #test_acc = a
+    #test_loss = c
+
+    batch_tst = 1
+
+    for i in range(0, index, batch_size):
+        #start, stop, step
+        batch_Xtst, batch_Ytst = get_next_batch(i, test_data, test_labels, batch_size)
+        a,c = sess.run([accuracy,cross_entropy], feed_dict = {X: batch_Xtst, Y: batch_Ytst, pkeep: 1.0})
+        test_acc = test_acc + a
+        test_loss = test_loss + c        
+        batch_tst = batch_tst + 1
     
+
+    test_loss = test_loss/batch_tst
+    test_acc = test_acc/batch_tst
+
     print("Epoch",epoch + 1,"Train Loss",train_loss,"Train Acc",train_acc)
     print("Epoch",epoch + 1,"Test Loss",test_loss,"Test Acc",test_acc)
     print("\n")
