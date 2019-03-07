@@ -1,7 +1,6 @@
 # Import libraries
 import numpy as np
 import tensorflow as tf
-tf.set_random_seed(0)
 import os
 from PIL import Image
 import matplotlib.pyplot as plt
@@ -13,6 +12,7 @@ COLS = 224
 lr = 0.001
 # pkeep = 0.5
 window = 5
+tf.set_random_seed(0)
 
 # Functions go here
 def read_from_folder(filename):
@@ -131,63 +131,63 @@ def get_next_batch(index, dataset, classes, batch_size):
 
 # Code starts here
 # Read Folder_1
-filename_1 = 'gossiping/'
+filename_1 = 'CPSC_8810/gossiping/'
 a1 = sorted(os.listdir(filename_1))
 l1 = len(a1)
 
 # Read Folder_2
-filename_2 = 'isolation/'
+filename_2 = 'CPSC_8810/isolation/'
 a2 = sorted(os.listdir(filename_2))
 l2 = len(a2)
 L2 = l1 + l2
 
 # Read Folder_3
-filename_3 = 'laughing/'
+filename_3 = 'CPSC_8810/laughing/'
 a3 = sorted(os.listdir(filename_3))
 l3 = len(a3)
 L3 = l1 + l2 + l3
 
 # Read Folder_4
-filename_4 = 'pullinghair/'
+filename_4 = 'CPSC_8810/pullinghair/'
 a4 = sorted(os.listdir(filename_4))
 l4 = len(a4)
 L4 = l1 + l2 + l3 + l4
 
 # Read Folder_5
-filename_5 = 'punching/'
+filename_5 = 'CPSC_8810/punching/'
 a5 = sorted(os.listdir(filename_5))
 l5 = len(a5)
 L5 = l1 + l2 + l3 + l4 + l5
 
 # Read Folder_6
-filename_6 = 'quarrel/'
+filename_6 = 'CPSC_8810/quarrel/'
 a6 = sorted(os.listdir(filename_6))
 l6 = len(a6)
 L6 = l1 + l2 + l3 + l4 + l5 + l6
 
 # Read Folder_7
-filename_7 = 'slapping/'
+filename_7 = 'CPSC_8810/slapping/'
 a7 = sorted(os.listdir(filename_7))
 l7 = len(a7)
 L7 = l1 + l2 + l3 + l4 + l5 + l6 + l7
 
 # Read Folder_8
-filename_8 = 'stabbing/'
+filename_8 = 'CPSC_8810/stabbing/'
 a8 = sorted(os.listdir(filename_8))
 l8 = len(a8)
 L8 = l1 + l2 + l3 + l4 + l5 + l6 + l7 + l8
 
 # Read Folder_9
-filename_9 = 'strangle/'
+filename_9 = 'CPSC_8810/strangle/'
 a9 = sorted(os.listdir(filename_9))
 l9 = len(a9)
 L9 = l1 + l2 + l3 + l4 + l5 + l6 + l7 + l8 + l9
 
 # Read Standford 40 Images
-filename_10 = 'stanford/'
+filename_10 = 'CPSC_8810/JPEGImages/'
 a10 = sorted(os.listdir(filename_10))
 l10 = len(a10)
-number = 10
+number = 100
 
 # Initialize the dataset and label container
 D = np.zeros(shape = (L9 + number, ROWS, COLS, 3))
@@ -267,13 +267,13 @@ Y1 = tf.nn.conv2d(X, W1, strides = [1,1,1,1], padding = 'SAME') + B1 # Image Siz
 Y1_max = tf.nn.max_pool(Y1, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
 Y1_out = tf.nn.relu(Y1_max) # Image Size 112 x 112
 
-Y1_1 = tf.nn.conv2d(Y1_out, W1_1, strides = [1,1,1,1], padding = 'SAME') + B1_1 # Image Size => 224 x 224
+Y1_1 = tf.nn.conv2d(Y1_out, W1_1, strides = [1,1,1,1], padding = 'SAME') + B1_1 # Image Size => 112 x 112
 Y1_1_max = tf.nn.max_pool(Y1_1, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
-Y1_1_out = tf.nn.relu(Y1_1_max) # Image Size 112 x 112
+Y1_1_out = tf.nn.relu(Y1_1_max) # Image Size 56 x 56
 
-Y1_2 = tf.nn.conv2d(Y1_1_out, W1_2, strides = [1,1,1,1], padding = 'SAME') + B1_2 # Image Size => 224 x 224
+Y1_2 = tf.nn.conv2d(Y1_1_out, W1_2, strides = [1,1,1,1], padding = 'SAME') + B1_2 # Image Size => 56 x 56
 Y1_2_max = tf.nn.max_pool(Y1_2, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
-Y1_2_out = tf.nn.relu(Y1_2_max) # Image Size 112 x 112
+Y1_2_out = tf.nn.relu(Y1_2_max) # Image Size 28 x 28
 
 YY = tf.reshape(Y1_2_out, shape = [-1, 28 * 28 * depth_3])
 Y2 = tf.matmul(YY, W2) + B2
@@ -310,7 +310,7 @@ batch_size = 64 # 32 // Change code to check if code is in train/test
 for epoch in range(125):
     batch = 1
     train_loss = 0
-    train_acc = 0    
+    train_acc = 0     
     
     # Randomly shuffle the dataset
     indices = np.arange(L9 + number)
@@ -329,22 +329,22 @@ for epoch in range(125):
     for i in range(0, index, batch_size):
         #start, stop, step
         batch_X, batch_Y = get_next_batch(i, train_data, train_labels, batch_size)
-        sess.run(train_step, feed_dict = {X: batch_X, Y: batch_Y, pkeep: 0.3})
+        sess.run(train_step, feed_dict = {X: batch_X, Y: batch_Y, pkeep: 0.7})
         a,c = sess.run([accuracy,cross_entropy], feed_dict = {X: batch_X, Y: batch_Y, pkeep: 1.0})
         train_acc = train_acc + a
-        train_loss = train_loss + c        
+        train_loss = train_loss + c
+        save_path = saver.save(sess,"CPSC_8810/model_new/model_9876")           
         batch = batch + 1
         
     train_loss = train_loss/batch
     train_acc = train_acc/batch
-    save_path = saver.save(sess,"E:/model.ckpt")
-    
+
     testdata = {X: test_data, Y:test_labels, pkeep: 1.0}
     a,c = sess.run([accuracy,cross_entropy], feed_dict = testdata)
     test_acc = a
-    test_loss = c
+    test_loss = c        
     
     print("Epoch",epoch + 1,"Train Loss",train_loss,"Train Acc",train_acc)
     print("Epoch",epoch + 1,"Test Loss",test_loss,"Test Acc",test_acc)
     print("\n")
-    #saver.save(session, 'weights_model') 
+    
