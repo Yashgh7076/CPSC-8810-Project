@@ -1,7 +1,6 @@
 # Import libraries
 import numpy as np
 import tensorflow as tf
-tf.set_random_seed(0)
 import os
 from PIL import Image
 import matplotlib.pyplot as plt
@@ -13,6 +12,7 @@ COLS = 224
 lr = 0.001
 # pkeep = 0.5
 window = 5
+tf.set_random_seed(0)
 
 # Functions go here
 def read_from_folder(filename):
@@ -258,8 +258,8 @@ W3 = tf.Variable(tf.truncated_normal(shape = [fc_1, fc_2], stddev = 0.1))
 B3 = tf.Variable(tf.constant(0.1, tf.float32, shape = [fc_2]))
 
 # Output Layer
-W4 = tf.Variable(tf.truncated_normal(shape = [fc_2, 10], stddev = 0.1))
-B4 = tf.Variable(tf.constant(0.1, tf.float32, shape = [10]))
+W4 = tf.Variable(tf.truncated_normal(shape = [fc_2, 2], stddev = 0.1))
+B4 = tf.Variable(tf.constant(0.1, tf.float32, shape = [2]))
 
 # Create model
 # CNN => 2 Convolutional Layers // 2 Fully Connected Layer
@@ -348,8 +348,9 @@ for epoch in range(250):
     #test_loss = c
 
     batch_tst = 1
+    number_tst = (L9 + number) - index
 
-    for i in range(0, index, batch_size):
+    for i in range(0, number_tst, batch_size):
         #start, stop, step
         batch_Xtst, batch_Ytst = get_next_batch(i, test_data, test_labels, batch_size)
         a,c = sess.run([accuracy,cross_entropy], feed_dict = {X: batch_Xtst, Y: batch_Ytst, pkeep: 1.0})
