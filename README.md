@@ -23,7 +23,9 @@ Fully Connected layer 2: The output of fully connected layer 1 is fed into it, t
 The output of the fully connected layer 2 is then fed into the softmax activation function that gives the 10 probabilities.
 
 The figure below is an accurate depiction of the architecture described above
-![Architecture1](https://user-images.githubusercontent.com/36894500/54063532-8877c900-41d2-11e9-9df1-949fcb6d0eb3.png)
+![Architecture](https://user-images.githubusercontent.com/36894500/54064563-063fd280-41db-11e9-8217-001d7de46ab0.png)
+
+
 
 # Requirements:
 Python 3.6.2
