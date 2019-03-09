@@ -1,13 +1,13 @@
 # CPSC-8810-Project
 Deep Learning Project
-# Contributors
+# Contributors:
 Yadnyesh Y. Luktuke and Eshaa D. Sood
 
-# Objective
+# Objective:
 1. Devise a model for classifying an image as bullying or not-bullying.
 2. Also, train the model to differentiate between the 9 categories of bullying i.e gossiping, isolation, laughing, pulling hair, punching,    lapping, stabbing, strangling and quarelling.
 
-# Network Architecture of Model
+# Network Architecture of Model:
 The model consists of 3 convolution layers and 2 fully connected layers. The architecture of the model is as follows:
 
 Convolutional Layer 1: The input image is fed into it, the filter size is 5*5, the number of channels is 3 and a total of 10 filters are used.
@@ -22,7 +22,37 @@ Fully Connected layer 2: The output of fully connected layer 1 is fed into it, t
 
 The output of the fully connected layer 2 is then fed into the softmax activation function that gives the 10 probabilities.
 
-# References
+The figure below is an accurate depiction of the architecture described above
+![Architecture1](https://user-images.githubusercontent.com/36894500/54063532-8877c900-41d2-11e9-9df1-949fcb6d0eb3.png)
+
+# Requirements:
+Python 3.6.2
+
+GPU
+
+Cuda-toolkit 9.0.176
+
+CUDNN 9.0 v7
+
+Anaconda 3.5.0.1
+
+## Libraries:
+
+Tensorflow_GPU-1.5.0
+
+Matplotlib
+
+Scipy
+
+Pillow
+
+Imageio
+
+Numpy
+
+
+
+# References:
 Google Cloud Platform,
 ``Tensorflow and deep learning, without a PhD'', available at 
 {"https://codelabs.developers.google.com/codelabs/cloud-tensorflow-mnist/#0"}
