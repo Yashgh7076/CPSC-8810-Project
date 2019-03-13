@@ -57,7 +57,7 @@ Numpy
 # References:
 Google Cloud Platform,
 ``Tensorflow and deep learning, without a PhD'', available at 
-https://codelabs.developers.google.com/codelabs/cloud-tensorflow-mnist/#0"
+https://codelabs.developers.google.com/codelabs/cloud-tensorflow-mnist/#0
 
 K.Simoyan, A.Zisserman,
 ``Very Deep Convolutional Networks for Large-Scale Image Recognition'', available at 
