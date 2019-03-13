@@ -30,11 +30,11 @@ The figure below is an accurate depiction of the architecture described above
 # Requirements:
 Python 3.6.2
 
-GPU
+NVIDIA CUDA Capable GPU
 
-Cuda-toolkit 9.0.176
+CUDA - Toolkit 9.0.176
 
-CUDNN 9.0 v7
+cuDNN 9.0 v7
 
 Anaconda 3.5.0.1
 
@@ -52,29 +52,28 @@ Imageio
 
 Numpy
 
-
-
 # References:
+
 Google Cloud Platform,
 ``Tensorflow and deep learning, without a PhD'', available at 
-https://codelabs.developers.google.com/codelabs/cloud-tensorflow-mnist/#0
+https://codelabs.developers.google.com/codelabs/cloud-tensorflow-mnist/#0, Online; Accessed Jan 20, 2019.
 
 K.Simoyan, A.Zisserman,
 ``Very Deep Convolutional Networks for Large-Scale Image Recognition'', available at 
-http://arxiv.org/abs/1409.1556, Online; Accessed Feb 28, 2019
+http://arxiv.org/abs/1409.1556, Online; Accessed Feb 28, 2019.
 
 B. Yao, X. Jiang, A. Khosla, A.L. Lin, L.J. Guibas, and L. Fei-Fei,
-``Human Action Recognition by Learning Bases of Action Attributes and Parts'', International Conference on Computer Vision (ICCV), Barcelona, Spain. November 6-13, 2011
+``Human Action Recognition by Learning Bases of Action Attributes and Parts'', International Conference on Computer Vision (ICCV), Barcelona, Spain. November 6-13, 2011.
 
 S. van der Walt, S. Chris Colbert and G. Varoquaux,
-``The NumPy Array: A Structure for Efficient Numerical Computation'', Computing in Science \& Engineering, 13, 22-30 (2011)
+``The NumPy Array: A Structure for Efficient Numerical Computation'', Computing in Science \& Engineering, 13, 22-30 (2011).
 
 A.Clark and contributors, F.Lundh and contributors,
-``Pillow and Python Imaging Library (PIL)'', available at https://pillow.readthedocs.io/en/stable/index.html, Online; Accessed Feb 28, 2019
+``Pillow and Python Imaging Library (PIL)'', available at https://pillow.readthedocs.io/en/stable/index.html, Online; Accessed Feb 28, 2019.
 
 S.Theodoridis, K. Koutroumbas,
-``Pattern Recognition, Fourth Edition'', Academic Press, Inc. 2008
+``Pattern Recognition, Fourth Edition'', Academic Press, Inc. 2008.
 
 A. Ng,
 ``Mini Batch Gradient Descent'', available at 
-https://www.youtube.com/watch?v=4qJaSmvhxi8, Online; Accessed Jan 20, 2019
+https://www.youtube.com/watch?v=4qJaSmvhxi8, Online; Accessed Jan 20, 2019.
