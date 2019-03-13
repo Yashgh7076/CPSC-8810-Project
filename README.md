@@ -57,11 +57,11 @@ Numpy
 # References:
 Google Cloud Platform,
 ``Tensorflow and deep learning, without a PhD'', available at 
-{"https://codelabs.developers.google.com/codelabs/cloud-tensorflow-mnist/#0"}
+https://codelabs.developers.google.com/codelabs/cloud-tensorflow-mnist/#0"
 
 K.Simoyan, A.Zisserman,
 ``Very Deep Convolutional Networks for Large-Scale Image Recognition'', available at 
-{"http://arxiv.org/abs/1409.1556"}, Online; Accessed \date{Feb 28, 2019}
+http://arxiv.org/abs/1409.1556", Online; Accessed Feb 28, 2019
 
 B. Yao, X. Jiang, A. Khosla, A.L. Lin, L.J. Guibas, and L. Fei-Fei,
 ``Human Action Recognition by Learning Bases of Action Attributes and Parts'', International Conference on Computer Vision (ICCV), Barcelona, Spain. November 6-13, 2011
@@ -70,11 +70,11 @@ S. van der Walt, S. Chris Colbert and G. Varoquaux,
 ``The NumPy Array: A Structure for Efficient Numerical Computation'', Computing in Science \& Engineering, 13, 22-30 (2011)
 
 A.Clark and contributors, F.Lundh and contributors,
-``Pillow and Python Imaging Library (PIL)'', available at \url{https://pillow.readthedocs.io/en/stable/index.html}, Online; Accessed \date{Feb 28, 2019}
+``Pillow and Python Imaging Library (PIL)'', available at https://pillow.readthedocs.io/en/stable/index.html, Online; Accessed Feb 28, 2019
 
 S.Theodoridis, K. Koutroumbas,
 ``Pattern Recognition, Fourth Edition'', Academic Press, Inc. 2008
 
 A. Ng,
 ``Mini Batch Gradient Descent'', available at 
-\url{"https://www.youtube.com/watch?v=4qJaSmvhxi8"}, Online; Accessed \date{Jan 20, 2019}
+https://www.youtube.com/watch?v=4qJaSmvhxi8, Online; Accessed Jan 20, 2019
