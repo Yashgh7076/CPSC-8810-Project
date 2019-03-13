@@ -61,7 +61,7 @@ https://codelabs.developers.google.com/codelabs/cloud-tensorflow-mnist/#0"
 
 K.Simoyan, A.Zisserman,
 ``Very Deep Convolutional Networks for Large-Scale Image Recognition'', available at 
-http://arxiv.org/abs/1409.1556", Online; Accessed Feb 28, 2019
+http://arxiv.org/abs/1409.1556, Online; Accessed Feb 28, 2019
 
 B. Yao, X. Jiang, A. Khosla, A.L. Lin, L.J. Guibas, and L. Fei-Fei,
 ``Human Action Recognition by Learning Bases of Action Attributes and Parts'', International Conference on Computer Vision (ICCV), Barcelona, Spain. November 6-13, 2011
