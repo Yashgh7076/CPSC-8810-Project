@@ -570,4 +570,4 @@ with tf.Session() as sess:
     print("Slapping",count_sl[0], count_sl[1], count_sl[2], count_sl[3], count_sl[4], count_sl[5], count_sl[6], count_sl[7], count_sl[8], count_sl[9])
     print("Stabbing",count_stab[0], count_stab[1], count_stab[2], count_stab[3], count_stab[4], count_stab[5], count_stab[6], count_stab[7], count_stab[8], count_stab[9])
     print("Strangle",count_stran[0], count_stran[1], count_stran[2], count_stran[3], count_stran[4], count_stran[5], count_stran[6], count_stran[7], count_stran[8], count_stran[9])
-    print("Non_bullying", count_nb)
+    print("Non_bullying", count_nb[0], count_nb[1], count_nb[2], count_nb[3], count_nb[4], count_nb[5], count_nb[6], count_nb[7], count_nb[8], count_nb[9])
