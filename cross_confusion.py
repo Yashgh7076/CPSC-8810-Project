@@ -333,7 +333,7 @@ count_nb = np.zeros(shape = (10))
 
 
 with tf.Session() as sess:
-    saver.restore(sess,"CPSC_8810/model_10cat/model_10categories")
+    saver.restore(sess,"CPSC_8810/model_10cat_new/model_10categories")
     #saver.restore(sess,"model_9cat/model_9categories")
     for i in range(0, L9 + number, batch_size):
         #start, stop, step
@@ -352,215 +352,216 @@ with tf.Session() as sess:
             #print(category)
             if(category == 0):
                 if(batch_Ytst[j] == 0):
-                    count_nb[9] = count_nb[9] + 1
-                elif(batch_Ytst[j] == 1):
                     count_nb[0] = count_nb[0] + 1
-                elif(batch_Ytst[j] == 2):
+                elif(batch_Ytst[j] == 1):
                     count_nb[1] = count_nb[1] + 1
-                elif(batch_Ytst[j] == 3):
+                elif(batch_Ytst[j] == 2):
                     count_nb[2] = count_nb[2] + 1
-                elif(batch_Ytst[j] == 4):
+                elif(batch_Ytst[j] == 3):
                     count_nb[3] = count_nb[3] + 1
-                elif(batch_Ytst[j] == 5):
+                elif(batch_Ytst[j] == 4):
                     count_nb[4] = count_nb[4] + 1
-                elif(batch_Ytst[j] == 6):
+                elif(batch_Ytst[j] == 5):
                     count_nb[5] = count_nb[5] + 1
-                elif(batch_Ytst[j] == 7):
+                elif(batch_Ytst[j] == 6):
                     count_nb[6] = count_nb[6] + 1
-                elif(batch_Ytst[j] == 8):
+                elif(batch_Ytst[j] == 7):
                     count_nb[7] = count_nb[7] + 1
-                elif(batch_Ytst[j] == 9):
+                elif(batch_Ytst[j] == 8):
                     count_nb[8] = count_nb[8] + 1
+                elif(batch_Ytst[j] == 9):
+                    count_nb[9] = count_nb[9] + 1
             if(category == 1):
                 if(batch_Ytst[j] == 0):
-                    count_g[9] = count_g[9] + 1
-                elif(batch_Ytst[j] == 1):
                     count_g[0] = count_g[0] + 1
-                elif(batch_Ytst[j] == 2):
+                elif(batch_Ytst[j] == 1):
                     count_g[1] = count_g[1] + 1
-                elif(batch_Ytst[j] == 3):
+                elif(batch_Ytst[j] == 2):
                     count_g[2] = count_g[2] + 1
-                elif(batch_Ytst[j] == 4):
+                elif(batch_Ytst[j] == 3):
                     count_g[3] = count_g[3] + 1
-                elif(batch_Ytst[j] == 5):
+                elif(batch_Ytst[j] == 4):
                     count_g[4] = count_g[4] + 1
-                elif(batch_Ytst[j] == 6):
+                elif(batch_Ytst[j] == 5):
                     count_g[5] = count_g[5] + 1
-                elif(batch_Ytst[j] == 7):
+                elif(batch_Ytst[j] == 6):
                     count_g[6] = count_g[6] + 1
-                elif(batch_Ytst[j] == 8):
+                elif(batch_Ytst[j] == 7):
                     count_g[7] = count_g[7] + 1
-                elif(batch_Ytst[j] == 9):
+                elif(batch_Ytst[j] == 8):
                     count_g[8] = count_g[8] + 1
+                elif(batch_Ytst[j] == 9):
+                    count_g[9] = count_g[9] + 1
             if(category == 2):
                 if(batch_Ytst[j] == 0):
-                    count_i[9] = count_i[9] + 1
-                elif(batch_Ytst[j] == 1):
                     count_i[0] = count_i[0] + 1
-                elif(batch_Ytst[j] == 2):
+                elif(batch_Ytst[j] == 1):
                     count_i[1] = count_i[1] + 1
-                elif(batch_Ytst[j] == 3):
+                elif(batch_Ytst[j] == 2):
                     count_i[2] = count_i[2] + 1
-                elif(batch_Ytst[j] == 4):
+                elif(batch_Ytst[j] == 3):
                     count_i[3] = count_i[3] + 1
-                elif(batch_Ytst[j] == 5):
+                elif(batch_Ytst[j] == 4):
                     count_i[4] = count_i[4] + 1
-                elif(batch_Ytst[j] == 6):
+                elif(batch_Ytst[j] == 5):
                     count_i[5] = count_i[5] + 1
-                elif(batch_Ytst[j] == 7):
+                elif(batch_Ytst[j] == 6):
                     count_i[6] = count_i[6] + 1
-                elif(batch_Ytst[j] == 8):
+                elif(batch_Ytst[j] == 7):
                     count_i[7] = count_i[7] + 1
-                elif(batch_Ytst[j] == 9):
+                elif(batch_Ytst[j] == 8):
                     count_i[8] = count_i[8] + 1
+                elif(batch_Ytst[j] == 9):
+                    count_i[9] = count_i[9] + 1
             if(category == 3):
                 if(batch_Ytst[j] == 0):
-                    count_l[9] = count_l[9] + 1
-                elif(batch_Ytst[j] == 1):
                     count_l[0] = count_l[0] + 1
-                elif(batch_Ytst[j] == 2):
+                elif(batch_Ytst[j] == 1):
                     count_l[1] = count_l[1] + 1
-                elif(batch_Ytst[j] == 3):
+                elif(batch_Ytst[j] == 2):
                     count_l[2] = count_l[2] + 1
-                elif(batch_Ytst[j] == 4):
+                elif(batch_Ytst[j] == 3):
                     count_l[3] = count_l[3] + 1
-                elif(batch_Ytst[j] == 5):
+                elif(batch_Ytst[j] == 4):
                     count_l[4] = count_l[4] + 1
-                elif(batch_Ytst[j] == 6):
+                elif(batch_Ytst[j] == 5):
                     count_l[5] = count_l[5] + 1
-                elif(batch_Ytst[j] == 7):
+                elif(batch_Ytst[j] == 6):
                     count_l[6] = count_l[6] + 1
-                elif(batch_Ytst[j] == 8):
+                elif(batch_Ytst[j] == 7):
                     count_l[7] = count_l[7] + 1
-                elif(batch_Ytst[j] == 9):
+                elif(batch_Ytst[j] == 8):
                     count_l[8] = count_l[8] + 1
+                elif(batch_Ytst[j] == 9):
+                    count_l[9] = count_l[9] + 1
             if(category == 4):
                 if(batch_Ytst[j] == 0):
-                    count_ph[9] = count_ph[9] + 1
-                elif(batch_Ytst[j] == 1):
                     count_ph[0] = count_ph[0] + 1
-                elif(batch_Ytst[j] == 2):
+                elif(batch_Ytst[j] == 1):
                     count_ph[1] = count_ph[1] + 1
-                elif(batch_Ytst[j] == 3):
+                elif(batch_Ytst[j] == 2):
                     count_ph[2] = count_ph[2] + 1
-                elif(batch_Ytst[j] == 4):
+                elif(batch_Ytst[j] == 3):
                     count_ph[3] = count_ph[3] + 1
-                elif(batch_Ytst[j] == 5):
+                elif(batch_Ytst[j] == 4):
                     count_ph[4] = count_ph[4] + 1
-                elif(batch_Ytst[j] == 6):
+                elif(batch_Ytst[j] == 5):
                     count_ph[5] = count_ph[5] + 1
-                elif(batch_Ytst[j] == 7):
+                elif(batch_Ytst[j] == 6):
                     count_ph[6] = count_ph[6] + 1
-                elif(batch_Ytst[j] == 8):
+                elif(batch_Ytst[j] == 7):
                     count_ph[7] = count_ph[7] + 1
-                elif(batch_Ytst[j] == 9):
+                elif(batch_Ytst[j] == 8):
                     count_ph[8] = count_ph[8] + 1
+                elif(batch_Ytst[j] == 9):
+                    count_ph[9] = count_ph[9] + 1
             if(category == 5):
                 if(batch_Ytst[j] == 0):
-                    count_pun[9] = count_pun[9] + 1
-                elif(batch_Ytst[j] == 1):
                     count_pun[0] = count_pun[0] + 1
-                elif(batch_Ytst[j] == 2):
+                elif(batch_Ytst[j] == 1):
                     count_pun[1] = count_pun[1] + 1
-                elif(batch_Ytst[j] == 3):
+                elif(batch_Ytst[j] == 2):
                     count_pun[2] = count_pun[2] + 1
-                elif(batch_Ytst[j] == 4):
+                elif(batch_Ytst[j] == 3):
                     count_pun[3] = count_pun[3] + 1
-                elif(batch_Ytst[j] == 5):
+                elif(batch_Ytst[j] == 4):
                     count_pun[4] = count_pun[4] + 1
-                elif(batch_Ytst[j] == 6):
+                elif(batch_Ytst[j] == 5):
                     count_pun[5] = count_pun[5] + 1
-                elif(batch_Ytst[j] == 7):
+                elif(batch_Ytst[j] == 6):
                     count_pun[6] = count_pun[6] + 1
-                elif(batch_Ytst[j] == 8):
+                elif(batch_Ytst[j] == 7):
                     count_pun[7] = count_pun[7] + 1
-                elif(batch_Ytst[j] == 9):
+                elif(batch_Ytst[j] == 8):
                     count_pun[8] = count_pun[8] + 1
+                elif(batch_Ytst[j] == 9):
+                    count_pun[9] = count_pun[9] + 1
             if(category == 6):
                 if(batch_Ytst[j] == 0):
-                    count_q[9] = count_q[9] + 1
-                elif(batch_Ytst[j] == 1):
                     count_q[0] = count_q[0] + 1
-                elif(batch_Ytst[j] == 2):
+                elif(batch_Ytst[j] == 1):
                     count_q[1] = count_q[1] + 1
-                elif(batch_Ytst[j] == 3):
+                elif(batch_Ytst[j] == 2):
                     count_q[2] = count_q[2] + 1
-                elif(batch_Ytst[j] == 4):
+                elif(batch_Ytst[j] == 3):
                     count_q[3] = count_q[3] + 1
-                elif(batch_Ytst[j] == 5):
+                elif(batch_Ytst[j] == 4):
                     count_q[4] = count_q[4] + 1
-                elif(batch_Ytst[j] == 6):
+                elif(batch_Ytst[j] == 5):
                     count_q[5] = count_q[5] + 1
-                elif(batch_Ytst[j] == 7):
+                elif(batch_Ytst[j] == 6):
                     count_q[6] = count_q[6] + 1
-                elif(batch_Ytst[j] == 8):
+                elif(batch_Ytst[j] == 7):
                     count_q[7] = count_q[7] + 1
-                elif(batch_Ytst[j] == 9):
+                elif(batch_Ytst[j] == 8):
                     count_q[8] = count_q[8] + 1
+                elif(batch_Ytst[j] == 9):
+                    count_q[9] = count_q[9] + 1
             if(category == 7):
                 if(batch_Ytst[j] == 0):
-                    count_sl[9] = count_sl[9] + 1
-                elif(batch_Ytst[j] == 1):
                     count_sl[0] = count_sl[0] + 1
-                elif(batch_Ytst[j] == 2):
+                elif(batch_Ytst[j] == 1):
                     count_sl[1] = count_sl[1] + 1
-                elif(batch_Ytst[j] == 3):
+                elif(batch_Ytst[j] == 2):
                     count_sl[2] = count_sl[2] + 1
-                elif(batch_Ytst[j] == 4):
+                elif(batch_Ytst[j] == 3):
                     count_sl[3] = count_sl[3] + 1
-                elif(batch_Ytst[j] == 5):
+                elif(batch_Ytst[j] == 4):
                     count_sl[4] = count_sl[4] + 1
-                elif(batch_Ytst[j] == 6):
+                elif(batch_Ytst[j] == 5):
                     count_sl[5] = count_sl[5] + 1
-                elif(batch_Ytst[j] == 7):
+                elif(batch_Ytst[j] == 6):
                     count_sl[6] = count_sl[6] + 1
-                elif(batch_Ytst[j] == 8):
+                elif(batch_Ytst[j] == 7):
                     count_sl[7] = count_sl[7] + 1
-                elif(batch_Ytst[j] == 9):
+                elif(batch_Ytst[j] == 8):
                     count_sl[8] = count_sl[8] + 1
+                elif(batch_Ytst[j] == 9):
+                    count_sl[9] = count_sl[9] + 1
             if(category == 8):
                 if(batch_Ytst[j] == 0):
-                    count_stab[9] = count_stab[9] + 1
-                elif(batch_Ytst[j] == 1):
                     count_stab[0] = count_stab[0] + 1
-                elif(batch_Ytst[j] == 2):
+                elif(batch_Ytst[j] == 1):
                     count_stab[1] = count_stab[1] + 1
-                elif(batch_Ytst[j] == 3):
+                elif(batch_Ytst[j] == 2):
                     count_stab[2] = count_stab[2] + 1
-                elif(batch_Ytst[j] == 4):
+                elif(batch_Ytst[j] == 3):
                     count_stab[3] = count_stab[3] + 1
-                elif(batch_Ytst[j] == 5):
+                elif(batch_Ytst[j] == 4):
                     count_stab[4] = count_stab[4] + 1
-                elif(batch_Ytst[j] == 6):
+                elif(batch_Ytst[j] == 5):
                     count_stab[5] = count_stab[5] + 1
-                elif(batch_Ytst[j] == 7):
+                elif(batch_Ytst[j] == 6):
                     count_stab[6] = count_stab[6] + 1
-                elif(batch_Ytst[j] == 8):
+                elif(batch_Ytst[j] == 7):
                     count_stab[7] = count_stab[7] + 1
-                elif(batch_Ytst[j] == 9):
+                elif(batch_Ytst[j] == 8):
                     count_stab[8] = count_stab[8] + 1
+                elif(batch_Ytst[j] == 9):
+                    count_stab[9] = count_stab[9] + 1
             if(category == 9):
                 if(batch_Ytst[j] == 0):
-                    count_stran[9] = count_stran[9] + 1
-                elif(batch_Ytst[j] == 1):
                     count_stran[0] = count_stran[0] + 1
-                elif(batch_Ytst[j] == 2):
+                elif(batch_Ytst[j] == 1):
                     count_stran[1] = count_stran[1] + 1
-                elif(batch_Ytst[j] == 3):
+                elif(batch_Ytst[j] == 2):
                     count_stran[2] = count_stran[2] + 1
-                elif(batch_Ytst[j] == 4):
+                elif(batch_Ytst[j] == 3):
                     count_stran[3] = count_stran[3] + 1
-                elif(batch_Ytst[j] == 5):
+                elif(batch_Ytst[j] == 4):
                     count_stran[4] = count_stran[4] + 1
-                elif(batch_Ytst[j] == 6):
+                elif(batch_Ytst[j] == 5):
                     count_stran[5] = count_stran[5] + 1
-                elif(batch_Ytst[j] == 7):
+                elif(batch_Ytst[j] == 6):
                     count_stran[6] = count_stran[6] + 1
-                elif(batch_Ytst[j] == 8):
+                elif(batch_Ytst[j] == 7):
                     count_stran[7] = count_stran[7] + 1
-                elif(batch_Ytst[j] == 9):
+                elif(batch_Ytst[j] == 8):
                     count_stran[8] = count_stran[8] + 1
+                elif(batch_Ytst[j] == 9):
+                    count_stran[9] = count_stran[9] + 1
     
+    print("Non_bullying", count_nb[0], count_nb[1], count_nb[2], count_nb[3], count_nb[4], count_nb[5], count_nb[6], count_nb[7], count_nb[8], count_nb[9])
     print("Gossiping",count_g[0], count_g[1], count_g[2], count_g[3], count_g[4], count_g[5], count_g[6], count_g[7], count_g[8], count_g[9])
     print("Isolation",count_i[0], count_i[1], count_i[2], count_i[3], count_i[4], count_i[5], count_i[6], count_i[7], count_i[8], count_i[9])
     print("Laughing",count_l[0], count_l[1], count_l[2], count_l[3], count_l[4], count_l[5], count_l[6], count_l[7], count_l[8], count_l[9])
@@ -570,4 +571,4 @@ with tf.Session() as sess:
     print("Slapping",count_sl[0], count_sl[1], count_sl[2], count_sl[3], count_sl[4], count_sl[5], count_sl[6], count_sl[7], count_sl[8], count_sl[9])
     print("Stabbing",count_stab[0], count_stab[1], count_stab[2], count_stab[3], count_stab[4], count_stab[5], count_stab[6], count_stab[7], count_stab[8], count_stab[9])
     print("Strangle",count_stran[0], count_stran[1], count_stran[2], count_stran[3], count_stran[4], count_stran[5], count_stran[6], count_stran[7], count_stran[8], count_stran[9])
-    print("Non_bullying", count_nb[0], count_nb[1], count_nb[2], count_nb[3], count_nb[4], count_nb[5], count_nb[6], count_nb[7], count_nb[8], count_nb[9])
+    
