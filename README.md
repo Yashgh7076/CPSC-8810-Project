@@ -52,6 +52,8 @@ Imageio
 
 Numpy
 
+# Results:
+![Archi](https://user-images.githubusercontent.com/36894500/54405975-ad76ab00-46ae-11e9-8c60-ff0f6d391b1c.png)
 # References:
 
 Google Cloud Platform,
