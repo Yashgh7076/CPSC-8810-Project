@@ -1,0 +1,3 @@
+Ensure the test script(test_script.py) and the trained model(model_10cat_new) are in the same folder.
+Also ensure the name of the model(model_10cat_new) is not changed.
+Run the test_script.py and pass the test image as the argument, the category of the image should be displayed.
