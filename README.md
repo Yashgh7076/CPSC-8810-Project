@@ -53,7 +53,8 @@ Imageio
 Numpy
 
 # Results:
-![Archi](https://user-images.githubusercontent.com/36894500/54405975-ad76ab00-46ae-11e9-8c60-ff0f6d391b1c.png)
+![Cross_confusion](https://user-images.githubusercontent.com/36894500/54406419-7f926600-46b0-11e9-9724-dc7338ea8c93.PNG)
+
 # References:
 
 Google Cloud Platform,
