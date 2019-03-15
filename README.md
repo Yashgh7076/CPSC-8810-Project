@@ -53,7 +53,8 @@ Imageio
 Numpy
 
 # Results:
-![Cross_confusion](https://user-images.githubusercontent.com/36894500/54406419-7f926600-46b0-11e9-9724-dc7338ea8c93.PNG)
+![Cross_confusion](https://user-images.githubusercontent.com/36894500/54409740-b7080f00-46be-11e9-95ec-3a424893f4c0.PNG)
+
 
 # References:
 
