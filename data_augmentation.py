@@ -163,6 +163,31 @@ def add_noise(dataset, mean, std_dev):
     
     return(images)
     
+def translate(dataset, topleft, bottomleft, topright, bottomright):
+    
+    N = dataset.shape[0]
+    images = np.zeros(shape = (N, ROWS, COLS, 3))
+    
+    
+    # Sequence of shift => Left / Up / Right / Down
+    # down = topleft // up = bottomleft // left = topright // right = bottomright
+    for i in range(N):
+        img = np.zeros((ROWS, COLS)) 
+        #temp1 = np.zeros((ROWS, COLS)) 
+        #temp2 = np.zeros((ROWS, COLS)) 
+        #temp3 = np.zeros((ROWS, COLS))
+        temp4 = np.zeros((ROWS, COLS))            
+        for j in range(3):             
+            img = dataset[i, :, :, j]     
+            #temp1[:,left:(COLS -1)] = img[:,0:(COLS - 1) - left]
+            #temp2[0:(ROWS - 1) - up, left:(COLS - 1)] = temp1[up:ROWS -1, left:(COLS - 1)]
+            #temp3[0:(ROWS - 1) - up, left:(COLS - 1) - right] = img[0:(ROWS -1) - up, 0:(COLS - 1) - right - left]
+            temp4[topleft:(ROWS - 1) - bottomleft, topright:(COLS -1) - bottomright] = img[topleft:(ROWS - 1) - bottomleft, topright:(COLS - 1) - bottomright]
+            images[i, :, :, j] = temp4 
+    
+    
+    return(images)
+   
 # Read Folder_1
 filename_1 = 'F:\Clemson University\ECE 8810_Deep Learning\Project\gossiping\Folder_1'
 a1 = sorted(os.listdir(filename_1))
@@ -177,20 +202,28 @@ D_flip = flip_images(D)
 
 D_noise = add_noise(D, 0, 0.25)
 
-plt.figure(1)
-plt.imshow(D[0,:,:,:])
+D_translate = translate(D, 25, 25, 25, 25)
 
-plt.figure(2)
-plt.imshow(D_flip[0,:,:,:])
+#plt.figure(1)
+#plt.imshow(D[0,:,:,:])
 
-plt.figure(3)
-plt.imshow(D_noise[0,:,:,:])
+#plt.figure(2)
+#plt.imshow(D_flip[0,:,:,:])
+
+#plt.figure(3)
+#plt.imshow(D_noise[0,:,:,:])
 
 plt.figure(4)
 plt.imshow(D[6,:,:,:])
 
-plt.figure(5)
-plt.imshow(D_flip[6,:,:,:])
+#plt.figure(5)
+#plt.imshow(D[6,:,:,:])
     
-plt.figure(6)
-plt.imshow(D_noise[6,:,:,:])
+#plt.figure(6)
+#plt.imshow(D_flip[6,:,:,:])
+
+#plt.figure(7)
+#plt.imshow(D_noise[6,:,:,:])
+
+plt.figure(8)
+plt.imshow(D_translate[6,:,:,:])
