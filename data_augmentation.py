@@ -163,7 +163,7 @@ def add_noise(dataset, mean, std_dev):
     
     return(images)
     
-def translate(dataset, topleft, bottomleft, topright, bottomright):
+def crop(dataset, topleft, bottomleft, topright, bottomright):
     
     N = dataset.shape[0]
     images = np.zeros(shape = (N, ROWS, COLS, 3))
@@ -202,7 +202,7 @@ D_flip = flip_images(D)
 
 D_noise = add_noise(D, 0, 0.25)
 
-D_translate = translate(D, 25, 25, 25, 25)
+D_crop = crop(D, 25, 25, 25, 25)
 
 #plt.figure(1)
 #plt.imshow(D[0,:,:,:])
