@@ -188,6 +188,7 @@ def crop(dataset, topleft, bottomleft, topright, bottomright):
 
 
 def get_next_batch(index, dataset, classes, batch_size):
+    
     X_batch = np.array(dataset[index:index + batch_size,:,:,:], dtype = np.float32)
     
     Y_batch = np.array(classes[index:index + batch_size], dtype = np.int32)
@@ -260,11 +261,13 @@ L10 = 4*l1 + 4*l2 + 4*l3 + 4*l4 + 4*l5 + 4*l6 + 4*l7 + 4*l8 + 4*l9 + number
 
 # Initialize the dataset and label container
 D = np.zeros(shape = (4*(L9 + number), ROWS, COLS, 3))
-D_flip = np.zeros(shape = (L9 + number, ROWS, COLS, 3))
+#D_flip = np.zeros(shape = (L9 + number, ROWS, COLS, 3))
 labels = np.zeros(shape = (4*(L9 + number)))
 
 D[0:l1, :, :, :] = read_from_folder(filename_1, 1, 0)
 
+# Allocate memory
+D_flip = D_noise = D_crop = np.zeros(shape = (l1, ROWS, COLS, 3))
 D_flip = flip_images(D[0:l1, :, :, :])
 D_noise = add_noise(D[0:l1, :, :, :], 0, 0.25)
 D_crop = crop(D[0:l1, :, :, :], 25, 25, 25, 25)
@@ -280,6 +283,7 @@ labels[(3*l1):(4*l1)] = 1
 
 
 D[(4*l1):L2, :, :, :] = read_from_folder(filename_2 , 1, 0)
+D_flip = D_noise = D_crop = np.zeros(shape = (l2, ROWS, COLS, 3))
 D_flip = flip_images(D[(4*l1):L2, :, :, :])
 D_noise = add_noise(D[(4*l1):L2, :, :, :], 0, 0.25)
 D_crop = crop(D[(4*l1):L2, :, :, :], 25, 25, 25, 25)
@@ -295,6 +299,7 @@ labels[L2 + (2*l2): L2 + (3*l2)] = 2
 
 
 D[(4*l1) + (4*l2):L3, :, :, :] = read_from_folder(filename_3, 1 ,0)
+D_flip = D_noise = D_crop = np.zeros(shape = (l3, ROWS, COLS, 3))
 D_flip = flip_images(D[(4*l1) + (4*l2):L3, :, :, :])
 D_noise = add_noise(D[(4*l1) + (4*l2):L3, :, :, :], 0, 0.25)
 D_crop = crop(D[(4*l1) + (4*l2):L3, :, :, :], 25, 25, 25, 25)
@@ -311,6 +316,7 @@ labels[L3 + (2*l3): L3 + (3*l3)] = 3
 
 
 D[(4*l1) + (4*l2) + (4*l3):L4, :, :, :] = read_from_folder(filename_4, 1, 0)  # L4 = 4l1 + 4l2 + 4l3 + l4
+D_flip = D_noise = D_crop = np.zeros(shape = (l4, ROWS, COLS, 3))
 D_flip = flip_images(D[(4*l1) + (4*l2) + (4*l3):L4, :, :, :])
 D_noise = add_noise(D[(4*l1) + (4*l2) + (4*l3):L4, :, :, :], 0, 0.25)
 D_crop = crop(D[(4*l1) + (4*l2) + (4*l3):L4, :, :, :], 25, 25, 25, 25)
@@ -328,7 +334,7 @@ labels[L4 + (2*l4): L4 + (3*l4)] = 4
 
 temp_index = (4*l1) + (4*l2) + (4*l3) + (4*l4) # Create a temporary index of the number of images 
 D[temp_index:L5, :, :, :] = read_from_folder(filename_5, 1 , 0)  # L5 = 4l1 + 4l2 + 4l3 + 4l4 + l5 = temp_index + l5
-
+D_flip = D_noise = D_crop = np.zeros(shape = (l5, ROWS, COLS, 3))
 D_flip = flip_images(D[temp_index:L5, :, :, :])
 D_noise = add_noise(D[temp_index:L5, :, :, :], 0, 0.25)
 D_crop = crop(D[temp_index:L5, :, :, :], 25, 25, 25, 25)
@@ -344,7 +350,7 @@ labels[L5 + (2*l5): L5 + (3*l5)] = 5
 
 temp_index = 4*(l1 + l2 + l3 + l4 + l5)
 D[temp_index:L6, :, :, :] = read_from_folder(filename_6, 1, 0)
-
+D_flip = D_noise = D_crop = np.zeros(shape = (l6, ROWS, COLS, 3))
 D_flip = flip_images(D[temp_index:L6, :, :, :])
 D_noise = add_noise(D[temp_index:L6, :, :, :], 0, 0.25)
 D_crop = crop(D[temp_index:L6, :, :, :], 25, 25, 25, 25)
@@ -360,7 +366,7 @@ labels[L6 + (2*l6): L6 + (3*l6)] = 6
 
 temp_index = 4*(l1 + l2 + l3 + l4 + l5 + l6)
 D[temp_index:L7, :, :, :] = read_from_folder(filename_7, 1, 0)
-
+D_flip = D_noise = D_crop = np.zeros(shape = (l7, ROWS, COLS, 3))
 D_flip = flip_images(D[temp_index:L7, :, :, :])
 D_noise = add_noise(D[temp_index:L7, :, :, :], 0, 0.25)
 D_crop = crop(D[temp_index:L7, :, :, :], 25, 25, 25, 25)
@@ -376,6 +382,7 @@ labels[L7 + (2*l7): L7 + (3*l7)] = 7
 
 temp_index = 4*(l1 + l2 + l3 + l4 + l5 + l6 + l7)
 D[temp_index:L8, :, :, :] = read_from_folder(filename_8, 1, 0)
+D_flip = D_noise = D_crop = np.zeros(shape = (l8, ROWS, COLS, 3))
 D_flip = flip_images(D[temp_index:L8, :, :, :])
 D_noise = add_noise(D[temp_index:L8, :, :, :], 0, 0.25)
 D_crop = crop(D[temp_index:L8, :, :, :], 25, 25, 25, 25)
@@ -391,6 +398,7 @@ labels[L8 + (2*l8): L8 + (3*l8)] = 8
 
 temp_index = 4*(l1 + l2 + l3 + l4 + l5 + l6 + l7 + l8)
 D[temp_index:L9, :, :, :] = read_from_folder(filename_9, 1, 0)
+D_flip = D_noise = D_crop = np.zeros(shape = (l9, ROWS, COLS, 3))
 D_flip = flip_images(D[temp_index:L9, :, :, :])
 D_noise = add_noise(D[temp_index:L9, :, :, :], 0, 0.25)
 D_crop = crop(D[temp_index:L9, :, :, :], 25, 25, 25, 25)
@@ -407,7 +415,7 @@ labels[L9 + (2*l9): L9 + (3*l9)] = 9
 temp_index = 4*l1 + 4*l2 + 4*l3 + 4*l4 + 4*l5 + 4*l6 + 4*l7 + 4*l8 + 4*l9
 D[temp_index:L10, :, :, :] = read_nonbullying(filename_10, number, 1, 0)
 
-
+D_flip = D_noise = D_crop = np.zeros(shape = (number, ROWS, COLS, 3))
 D_flip = flip_images(D[temp_index:L10, :, :, :])
 D_noise = add_noise(D[temp_index:L10, :, :, :], 0, 0.25)
 D_crop = crop(D[temp_index:L10, :, :, :], 25, 25, 25, 25)
@@ -552,7 +560,7 @@ for epoch in range(epochs):
         save_path = saver.save(sess,"D:/model_10categories")
         
         
-    #train_loss[epoch] = train_loss[epoch]/batch
+    #train_loss[epoch] = train_loss[epoch]/batch6
     #train_acc[epoch] = train_acc[epoch]/batch
     
     
