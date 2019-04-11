@@ -547,7 +547,7 @@ for epoch in range(epochs):
     test_labels = labels[test_index]
 
 
-    for i in range(0, index, batch_size):
+    for i in range(0, train_index, batch_size):
         #start, stop, step
         batch_X, batch_Y = get_next_batch(i, train_data, train_labels, batch_size)
         sess.run(train_step, feed_dict = {X: batch_X, Y: batch_Y, pkeep: 0.7})
@@ -570,7 +570,7 @@ for epoch in range(epochs):
     #test_loss = c
 
     # batch_tst = 1
-    number_tst = (4*(L9 + number)) - index
+    number_tst = (4*(L9 + number)) - train_index
 
     for i in range(0, number_tst, batch_size):
         #start, stop, step
