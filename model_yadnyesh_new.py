@@ -453,8 +453,8 @@ for epoch in range(epochs):
             loss = loss + c
             
         
-        test_acc[iters1] = acc
-        test_loss[iters1] = loss
+        test_acc[iters1] = (acc * batch_size)/ number_tst
+        test_loss[iters1] = (loss * batch_size)/ number_tst
         
         # Print model train loss and accuracy after each iteration
         print("Iteration",iters1,"Train Loss",train_loss[iters1],"Train Acc",train_acc[iters1]) 
