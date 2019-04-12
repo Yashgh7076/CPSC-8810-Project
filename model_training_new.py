@@ -260,9 +260,9 @@ number = L9
 L10 = 4*l1 + 4*l2 + 4*l3 + 4*l4 + 4*l5 + 4*l6 + 4*l7 + 4*l8 + 4*l9 + number
 
 # Initialize the dataset and label container
-D = np.zeros(shape = (4*(L9 + number), ROWS, COLS, 3))
+D = np.zeros(shape = (L10 + (3*number) , ROWS, COLS, 3)) # change was needed here
 #D_flip = np.zeros(shape = (L9 + number, ROWS, COLS, 3))
-labels = np.zeros(shape = (4*(L9 + number)))
+labels = np.zeros(shape = (L10 + (3*number))) # change was needed here
 
 D[0:l1, :, :, :] = read_from_folder(filename_1, 1, 0)
 
@@ -524,18 +524,16 @@ train_acc = np.zeros(shape=(total))
 test_loss = np.zeros(shape=(total))
 test_acc = np.zeros(shape=(total))
 
-iters = 0
 iters1 = 0
-iters2 = 0
 
 for epoch in range(epochs):
             
     if epoch == 0:
-        indices = np.arange(4*(L9 + number))
+        indices = np.arange(L10 + (3*number))
         np.random.shuffle(indices)
-        index = math.floor(0.67*(4*(L9 + number)))
+        index = math.floor(0.67*(L10 + (3*number)))
         train_index = indices[0:index]
-        test_index = indices[index:(4*(L9 + number))]
+        test_index = indices[index:L10 + (3*number)]
     else:
         np.random.shuffle(train_index)
 
@@ -546,52 +544,44 @@ for epoch in range(epochs):
     test_data = D[test_index, :, :, :]
     test_labels = labels[test_index]
 
+    number_tst = (L10 + (3*number)) - index # Number of testing images    
 
-    for i in range(0, train_index, batch_size):
+    # Testing images also need to fed in batches to avoid "Tensor out of memory error"
+    # Hence average metrics reported for testing images for each iteration
+
+    for i in range(0, index, batch_size):
         #start, stop, step
         batch_X, batch_Y = get_next_batch(i, train_data, train_labels, batch_size)
         sess.run(train_step, feed_dict = {X: batch_X, Y: batch_Y, pkeep: 0.7})
         a,c = sess.run([accuracy,cross_entropy], feed_dict = {X: batch_X, Y: batch_Y, pkeep: 1.0})
         train_acc[iters1] = a
-        train_loss[iters1] = c        
-        iters1 = iters1 + 1
+        train_loss[iters1] = c   
 
         # Save model after each iteration
         save_path = saver.save(sess,"D:/model_10categories")
+
+        # Test calculation initialization
+        acc = 0
+        loss = 0
+        batch = 0
+
+        # Line 569 - 578 => Average testing loss
+        for i in range(0, number_tst, batch_size):
+            # start, stop, step
+            batch_Xtst, batch_Ytst = get_next_batch(i, test_data, test_labels, batch_size)
+            a,c = sess.run([accuracy,cross_entropy], feed_dict = {X: batch_Xtst, Y: batch_Ytst, pkeep: 1.0})
+            acc = acc + a
+            loss = loss + c
+            batch = batch + 1
+
+        test_acc[iters1] = acc/batch
+        test_loss[iters1] = loss/batch
         
+        # Print model train loss and accuracy after each iteration
+        print("Iteration",iters1,"Train Loss",train_loss[iters1],"Train Acc",train_acc[iters1]) 
+        print("Iteration",iters1,"Test Loss",test_loss[iters1],"Test Acc",test_acc[iters1]) 
+        print("\n")
+        iters1 = iters1 + 1 # update count of iterations 
         
-    #train_loss[epoch] = train_loss[epoch]/batch6
-    #train_acc[epoch] = train_acc[epoch]/batch
-    
-    
-    #testdata = {X: test_data, Y:test_labels, pkeep: 1.0}
-    #a,c = sess.run([accuracy,cross_entropy], feed_dict = testdata)
-    #test_acc = a
-    #test_loss = c
+np.savez('D:/plots/iterations_plots.npz',name1 = train_acc, name2 = train_loss, name3 = test_acc, name4 = test_loss, name5 = iters1)
 
-    # batch_tst = 1
-    number_tst = (4*(L9 + number)) - train_index
-
-    for i in range(0, number_tst, batch_size):
-        #start, stop, step
-        batch_Xtst, batch_Ytst = get_next_batch(i, test_data, test_labels, batch_size)
-        a,c = sess.run([accuracy,cross_entropy], feed_dict = {X: batch_Xtst, Y: batch_Ytst, pkeep: 1.0})
-        test_acc[iters2] = a
-        test_loss[iters2] = c        
-        iters2 = iters2 + 1
-    
-
-    #test_loss[epoch] = test_loss[epoch]/batch_tst
-    #test_acc[epoch] = test_acc[epoch]/batch_tst
-
-   
-
-    # Print model train loss and accuracy after each iteration
-    print("Iteration",iters,"Train Loss",train_loss[iters],"Train Acc",train_acc[iters]) 
-    print("Iteration",iters,"Test Loss",test_loss[iters],"Test Acc",test_acc[iters]) 
-    print("\n")
-   
-    
-np.savez('D:/plots/iterations_plots.npz',name1 = train_acc, name2 = train_loss, name3 = test_acc, name4 = test_loss)
-
-#np.savez('CPSC_8810/plots/10categoriesnew_plots.npz',name1 = train_acc, name2 = train_loss, name3 = test_acc, name4 = test_loss)
