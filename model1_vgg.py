@@ -425,79 +425,85 @@ BO = tf.Variable(tf.constant(0.1, tf.float32, shape = [10]))
 # layer 1 network feed - forward part // X => 4D input tensor
 Y1_1 = tf.nn.conv2d(X, W1_1, strides = [1,1,1,1], padding = 'SAME') + B1_1
 #mean1_1, var1_1 = tf.nn.moments(Y1_1, axes = [0, 1, 2])
-Y1_1_out = tf.nn.relu(Y1_1)
-Y1_1_bn = tf.layers.batch_normalization(Y1_1_out, training = training, momentum = 0.9)
+Y1_1_bn = tf.layers.batch_normalization(Y1_1, training = training, momentum = 0.9)
+Y1_1_out = tf.nn.relu(Y1_1_bn)
 
 
-Y1_2 = tf.nn.conv2d(Y1_1_bn, W1_2, strides = [1,1,1,1], padding = 'SAME') + B1_2
+
+Y1_2 = tf.nn.conv2d(Y1_1_out, W1_2, strides = [1,1,1,1], padding = 'SAME') + B1_2
 #mean1_2, var1_2 = tf.nn.moments(Y1_2, axes = [0, 1, 2])
-Y1_2_out = tf.nn.relu(Y1_2)
-Y1_2_bn = tf.layers.batch_normalization(Y1_2_out, training = training, momentum = 0.9)
+Y1_2_bn = tf.layers.batch_normalization(Y1_2, training = training, momentum = 0.9)
+Y1_2_out = tf.nn.relu(Y1_2_bn)
 
 
-Y1_out = tf.nn.max_pool(Y1_2_bn, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
+Y1_out = tf.nn.max_pool(Y1_2_out, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
 
 # layer 2 network feed - forward part // X => 4D input tensor
 Y2_1 = tf.nn.conv2d(Y1_out, W2_1, strides = [1,1,1,1], padding = 'SAME') + B2_1
 #mean2_1, var2_1 = tf.nn.moments(Y2_1, axes = [0, 1, 2])
-Y2_1_out = tf.nn.relu(Y2_1)
-Y2_1_bn = tf.layers.batch_normalization(Y2_1_out, training = training, momentum = 0.9)
+Y2_1_bn = tf.layers.batch_normalization(Y2_1, training = training, momentum = 0.9)
+Y2_1_out = tf.nn.relu(Y2_1_bn)
 
 
-Y2_2 = tf.nn.conv2d(Y2_1_bn, W2_2, strides = [1,1,1,1], padding = 'SAME') + B2_2
+
+Y2_2 = tf.nn.conv2d(Y2_1_out, W2_2, strides = [1,1,1,1], padding = 'SAME') + B2_2
 #mean2_2, var2_2 = tf.nn.moments(Y2_2, axes = [0, 1, 2])
-Y2_2_out = tf.nn.relu(Y2_2)
-Y2_2_bn = tf.layers.batch_normalization(Y2_2_out, training = training, momentum = 0.9)
+Y2_2_bn = tf.layers.batch_normalization(Y2_2, training = training, momentum = 0.9)
+Y2_2_out = tf.nn.relu(Y2_2_bn)
 
 
-Y2_out = tf.nn.max_pool(Y2_2_bn, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
+Y2_out = tf.nn.max_pool(Y2_2_out, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
 
 
 # layer 3 network feed - forward part // X => 4D input tensor
 Y3_1 = tf.nn.conv2d(Y2_out, W3_1, strides = [1,1,1,1], padding = 'SAME') + B3_1
 #mean3_1, var3_1 = tf.nn.moments(Y3_1, axes = [0, 1, 2])
-Y3_1_out = tf.nn.relu(Y3_1)
-Y3_1_bn = tf.layers.batch_normalization(Y3_1_out, training = training, momentum = 0.9)
+Y3_1_bn = tf.layers.batch_normalization(Y3_1, training = training, momentum = 0.9)
+Y3_1_out = tf.nn.relu(Y3_1_bn)
 
 
-Y3_2 = tf.nn.conv2d(Y3_1_bn, W3_2, strides = [1,1,1,1], padding = 'SAME') + B3_2
+
+Y3_2 = tf.nn.conv2d(Y3_1_out, W3_2, strides = [1,1,1,1], padding = 'SAME') + B3_2
 #mean3_2, var3_2 = tf.nn.moments(Y3_2, axes = [0, 1, 2])
-Y3_2_out = tf.nn.relu(Y3_2)
-Y3_2_bn = tf.layers.batch_normalization(Y3_2_out, training = training, momentum = 0.9)
+Y3_2_bn = tf.layers.batch_normalization(Y3_2, training = training, momentum = 0.9)
+Y3_2_out = tf.nn.relu(Y3_2_bn)
 
 
-Y3_out = tf.nn.max_pool(Y3_2_bn, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
+
+Y3_out = tf.nn.max_pool(Y3_2_out, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
 
 
 # layer 4 network feed - forward part // X => 4D input tensor
 Y4_1 = tf.nn.conv2d(Y3_out, W4_1, strides = [1,1,1,1], padding = 'SAME') + B4_1
 #mean4_1, var4_1 = tf.nn.moments(Y4_1, axes = [0, 1, 2])
-Y4_1_out = tf.nn.relu(Y4_1)
-Y4_1_bn = tf.layers.batch_normalization(Y4_1_out, training = training, momentum = 0.9)
+Y4_1_bn = tf.layers.batch_normalization(Y4_1, training = training, momentum = 0.9)
+Y4_1_out = tf.nn.relu(Y4_1_bn)
 
 
-Y4_2 = tf.nn.conv2d(Y4_1_bn, W4_2, strides = [1,1,1,1], padding = 'SAME') + B4_2
+
+Y4_2 = tf.nn.conv2d(Y4_1_out, W4_2, strides = [1,1,1,1], padding = 'SAME') + B4_2
 #mean4_2, var4_2 = tf.nn.moments(Y4_2, axes = [0, 1, 2])
-Y4_2_out = tf.nn.relu(Y4_2)
-Y4_2_bn = tf.layers.batch_normalization(Y4_2_out, training = training, momentum = 0.9)
+Y4_2_bn = tf.layers.batch_normalization(Y4_2, training = training, momentum = 0.9)
+Y4_2_out = tf.nn.relu(Y4_2_bn)
 
-Y4_out = tf.nn.max_pool(Y4_2_bn, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
+Y4_out = tf.nn.max_pool(Y4_2_out, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
 
 
 # layer 5 network feed - forward part // X => 4D input tensor
 Y5_1 = tf.nn.conv2d(Y4_out, W5_1, strides = [1,1,1,1], padding = 'SAME') + B5_1
 #mean5_1, var5_1 = tf.nn.moments(Y5_1, axes = [0, 1, 2])
-Y5_1_out = tf.nn.relu(Y5_1)
-Y5_1_bn = tf.layers.batch_normalization(Y5_1_out, training = training, momentum = 0.9)
+Y5_1_bn = tf.layers.batch_normalization(Y5_1, training = training, momentum = 0.9)
+Y5_1_out = tf.nn.relu(Y5_1_bn)
 
 
-Y5_2 = tf.nn.conv2d(Y5_1_bn, W5_2, strides = [1,1,1,1], padding = 'SAME') + B5_2
+
+Y5_2 = tf.nn.conv2d(Y5_1_out, W5_2, strides = [1,1,1,1], padding = 'SAME') + B5_2
 #mean5_2, var5_2 = tf.nn.moments(Y5_2, axes = [0, 1, 2])
-Y5_2_out = tf.nn.relu(Y5_2)
-Y5_2_bn = tf.layers.batch_normalization(Y5_2_out, training = training, momentum = 0.9)
+Y5_2_bn = tf.layers.batch_normalization(Y5_2, training = training, momentum = 0.9)
+Y5_2_out = tf.nn.relu(Y5_2_bn)
 
 
-Y5_out = tf.nn.max_pool(Y5_2_bn, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
+Y5_out = tf.nn.max_pool(Y5_2_out, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
 
 # FC Layers
 YY = tf.reshape(Y5_out, shape = [-1, 7 * 7 * filters_5_2])
@@ -521,7 +527,7 @@ Y_pred = tf.nn.softmax(Y_logits)
 cross_entropy = tf.losses.sparse_softmax_cross_entropy(Y, Y_logits)
 cross_entropy = tf.reduce_mean(cross_entropy)
 # Regularization Part
-reg = tf.nn.l2_loss(W1_1) + tf.nn.l2_loss(W1_2) + tf.nn.l2_loss(W2_1) + tf.nn.l2_loss(W2_2) + tf.nn.l2_loss(W2_2) + tf.nn.l2_loss(W3_1) + tf.nn.l2_loss(W3_2) + tf.nn.l2_loss(W4_1) + tf.nn.l2_loss(W4_2) + tf.nn.l2_loss(W5_1) + tf.nn.l2_loss(W5_2)
+reg = tf.nn.l2_loss(W1_1) + tf.nn.l2_loss(W1_2) + tf.nn.l2_loss(W2_1) + tf.nn.l2_loss(W2_2) + tf.nn.l2_loss(W3_1) + tf.nn.l2_loss(W3_2) + tf.nn.l2_loss(W4_1) + tf.nn.l2_loss(W4_2) + tf.nn.l2_loss(W5_1) + tf.nn.l2_loss(W5_2)
 fc = tf.nn.l2_loss(WFC_1) + tf.nn.l2_loss(WFC_2)
 o = tf.nn.l2_loss(WO)
 
