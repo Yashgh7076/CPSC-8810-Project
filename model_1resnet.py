@@ -227,7 +227,7 @@ def augment_labels(labels, previous, L):
 
 def min_max_normalize(dataset, min_value, max_value):
 
-    N = data.shape[0]
+    N = dataset.shape[0]
     images = np.zeros(shape = (N, ROWS, COLS, 3)) 
     img = np.zeros(shape = (ROWS, COLS))
 
@@ -235,7 +235,7 @@ def min_max_normalize(dataset, min_value, max_value):
         for c in range(3):
             img = dataset[i, :, :, c]
             img_std = (img - np.amin(img, axis = (0,1)))/ (np.amax(img, axis = (0,1)) - np.amin(img, axis = (0,1)))
-            img_scl = img_scl*(max_value - min_value) + min_value
+            img_scl = img_std*(max_value - min_value) + min_value
             images[i, :, :, c] = img_scl
 
     
@@ -362,7 +362,7 @@ D[(2*L10):(3*L10),:,:,:] = jitter(D[0:L10, :, :, :], 0.25) # Brightness jitter
 D[(3*L10):(4*L10),:,:,:] = flip_images(D[0:L10, :, :, :]) # Flip + Additive Gaussian noise
 D[(3*L10):(4*L10),:,:,:] = add_noise(D[(3*L10):(4*L10), :, :, :], 0, 0.25)
 
-D = standard_scaler(D)
+D = min_max_normalize(D, 0, 1)
 
 # Augment labels
 augment_labels(labels, L10, L) # augment labels for flipped images
@@ -434,7 +434,7 @@ B10_res = tf.Variable(tf.constant(0.1, tf.float32, shape = [filters_10res]))
 fc_1 = 750
 fc_2 = 350
 # Fully Connected Layer Weight Initialization
-WFC_1 = tf.Variable(tf.truncated_normal(shape = [14 * 14 * filters_6res, fc_1], stddev = 0.1))
+WFC_1 = tf.Variable(tf.truncated_normal(shape = [7 * 7 * filters_10res, fc_1], stddev = 0.1))
 BFC_1 = tf.Variable(tf.constant(0.1, tf.float32, shape = [fc_1]))
 
 WFC_2 = tf.Variable(tf.truncated_normal(shape = [fc_1, fc_2], stddev = 0.1))
