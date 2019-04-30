@@ -315,12 +315,12 @@ training = tf.placeholder_with_default(False, shape = ())
 
 # Initialize weights
 # 1 -> convolution layer // Image Size 224 x 224 x 3
-filters_1conv= 16
+filters_1conv= 4 #16
 W1_conv= tf.Variable(tf.truncated_normal(shape = [window, window, 3, filters_1conv], stddev = 0.1))
 B1_conv = tf.Variable(tf.constant(0.1, tf.float32, shape = [filters_1conv]))
 
 # 2 -> residual block // Image Size 112 x 112 X filters1_conv
-filters_1res = filters_2res = 32
+filters_1res = filters_2res = 8
 W1_res = tf.Variable(tf.truncated_normal(shape = [7, 7, filters_1conv, filters_1res], stddev = 0.1))
 B1_res = tf.Variable(tf.constant(0.1, tf.float32, shape = [filters_1res]))
 
@@ -328,7 +328,7 @@ W2_res = tf.Variable(tf.truncated_normal(shape = [7, 7, filters_1res, filters_2r
 B2_res = tf.Variable(tf.constant(0.1, tf.float32, shape = [filters_2res]))
 
 # 3 -> residual block// Image Size 56 x 56 x filters_2res
-filters_3res = filters_4res = 64
+filters_3res = filters_4res = 16
 W3_res = tf.Variable(tf.truncated_normal(shape = [5, 5, filters_2res, filters_3res], stddev = 0.1))
 B3_res = tf.Variable(tf.constant(0.1, tf.float32, shape = [filters_3res]))
 
@@ -336,7 +336,7 @@ W4_res = tf.Variable(tf.truncated_normal(shape = [5, 5, filters_3res, filters_4r
 B4_res = tf.Variable(tf.constant(0.1, tf.float32, shape = [filters_4res]))
 
 # 4 -> residual block// Image Size 28 x 28 x filters_4res
-filters_5res = filters_6res = 128
+filters_5res = filters_6res = 32
 W5_res = tf.Variable(tf.truncated_normal(shape = [3, 3, filters_4res, filters_5res], stddev = 0.1))
 B5_res = tf.Variable(tf.constant(0.1, tf.float32, shape = [filters_5res]))
 
@@ -344,7 +344,7 @@ W6_res = tf.Variable(tf.truncated_normal(shape = [3, 3, filters_5res, filters_6r
 B6_res = tf.Variable(tf.constant(0.1, tf.float32, shape = [filters_6res]))
 
 # 5 -> residual block// Image Size 14 x 14 x filters_6res
-filters_7res = filters_8res = 256
+filters_7res = filters_8res = 64
 W7_res = tf.Variable(tf.truncated_normal(shape = [3, 3, filters_6res, filters_7res], stddev = 0.1))
 B7_res = tf.Variable(tf.constant(0.1, tf.float32, shape = [filters_7res]))
 
@@ -352,7 +352,7 @@ W8_res = tf.Variable(tf.truncated_normal(shape = [3, 3, filters_7res, filters_8r
 B8_res = tf.Variable(tf.constant(0.1, tf.float32, shape = [filters_8res]))
 
 # 6 -> residual block// Image Size 7 x 7 x filters_8res
-filters_9res = filters_10res = 512
+filters_9res = filters_10res = 128
 W9_res = tf.Variable(tf.truncated_normal(shape = [3, 3, filters_8res, filters_9res], stddev = 0.1))
 B9_res = tf.Variable(tf.constant(0.1, tf.float32, shape = [filters_9res]))
 
@@ -376,82 +376,82 @@ BO = tf.Variable(tf.constant(0.1, tf.float32, shape = [10]))
 #------------Model starts here------------#
 # Input image 224 x 224 x 3
 Y1_conv = tf.nn.conv2d(X, W1_conv, strides = [1,1,1,1], padding = 'SAME') + B1_conv
-Y1_conv = tf.layers.batch_normalization(Y1_conv, training = training, momentum = 0.5)
-Y1_conv = tf.nn.elu(Y1_conv)
-Y1_conv = tf.nn.max_pool(Y1_conv, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
-Y1_conv = tf.nn.dropout(Y1_conv, keep_prob = pkeep_conv)
+Y1_cbn = tf.layers.batch_normalization(Y1_conv, training = training, momentum = 0.5)
+Y1_caf = tf.nn.elu(Y1_cbn)
+Y1_cmp = tf.nn.max_pool(Y1_caf, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
+Y1_cout = tf.nn.dropout(Y1_cmp, keep_prob = pkeep_conv)
 
 # Input image 112 x 112 x filters_1conv
-Y1_res = tf.nn.conv2d(Y1_conv, W1_res, strides =[1,1,1,1], padding = 'SAME') + B1_res
-Y1_res = tf.layers.batch_normalization(Y1_res, training = training, momentum = 0.5)
-Y1_res = tf.nn.elu(Y1_res) # No maxpooling within a resnet block
+Y1_res = tf.nn.conv2d(Y1_cout, W1_res, strides =[1,1,1,1], padding = 'SAME') + B1_res
+Y1_rbn = tf.layers.batch_normalization(Y1_res, training = training, momentum = 0.5)
+Y1_raf = tf.nn.elu(Y1_rbn) # No maxpooling within a resnet block
 
-Y2_res = tf.nn.conv2d(Y1_res, W2_res, strides =[1,1,1,1], padding = 'SAME') + B2_res
-Y2_res = Y2_res + tf.concat([Y1_conv, Y1_conv], 3) # Add input of resnet block
-Y2_res = tf.layers.batch_normalization(Y2_res, training = training, momentum = 0.5)
-Y2_res = tf.nn.elu(Y2_res)
-Y2_res = tf.nn.max_pool(Y2_res, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
-Y2_res = tf.nn.dropout(Y2_res, keep_prob = pkeep_conv)
+Y2_res = tf.nn.conv2d(Y1_raf, W2_res, strides =[1,1,1,1], padding = 'SAME') + B2_res
+Y2_rad = Y2_res + tf.concat([Y1_cout, Y1_cout], 3) # Add input of resnet block
+Y2_rbn = tf.layers.batch_normalization(Y2_rad, training = training, momentum = 0.5)
+Y2_raf = tf.nn.elu(Y2_rbn)
+Y2_rmp = tf.nn.max_pool(Y2_raf, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
+Y2_out = tf.nn.dropout(Y2_rmp, keep_prob = pkeep_conv)
 
 # Input image 56 x 56 x filters_2res
-Y3_res = tf.nn.conv2d(Y2_res, W3_res, strides =[1,1,1,1], padding = 'SAME') + B3_res
-Y3_res = tf.layers.batch_normalization(Y3_res, training = training, momentum = 0.5)
-Y3_res = tf.nn.elu(Y3_res) # No maxpooling within a resnet block
+Y3_res = tf.nn.conv2d(Y2_out, W3_res, strides =[1,1,1,1], padding = 'SAME') + B3_res
+Y3_rbn = tf.layers.batch_normalization(Y3_res, training = training, momentum = 0.5)
+Y3_raf = tf.nn.elu(Y3_rbn) # No maxpooling within a resnet block
 
-Y4_res = tf.nn.conv2d(Y3_res, W4_res, strides =[1,1,1,1], padding = 'SAME') + B4_res
-Y4_res = Y4_res + tf.concat([Y2_res, Y2_res], 3) # Add input of resnet block
-Y4_res = tf.layers.batch_normalization(Y4_res, training = training, momentum = 0.5)
-Y4_res = tf.nn.elu(Y4_res)
-Y4_res = tf.nn.max_pool(Y4_res, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
-Y4_res = tf.nn.dropout(Y4_res, keep_prob = pkeep_conv)
+Y4_res = tf.nn.conv2d(Y3_raf, W4_res, strides =[1,1,1,1], padding = 'SAME') + B4_res
+Y4_rad = Y4_res + tf.concat([Y2_out, Y2_out], 3) # Add input of resnet block
+Y4_rbn = tf.layers.batch_normalization(Y4_rad, training = training, momentum = 0.5)
+Y4_raf = tf.nn.elu(Y4_rbn)
+Y4_rmp = tf.nn.max_pool(Y4_raf, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
+Y4_out = tf.nn.dropout(Y4_rmp, keep_prob = pkeep_conv)
 
 # Input image 28 x 28 x filters_4res
-Y5_res = tf.nn.conv2d(Y4_res, W5_res, strides =[1,1,1,1], padding = 'SAME') + B5_res
-Y5_res = tf.layers.batch_normalization(Y5_res, training = training, momentum = 0.5)
-Y5_res = tf.nn.elu(Y5_res) # No maxpooling within a resnet block
+Y5_res = tf.nn.conv2d(Y4_out, W5_res, strides =[1,1,1,1], padding = 'SAME') + B5_res
+Y5_rbn = tf.layers.batch_normalization(Y5_res, training = training, momentum = 0.5)
+Y5_raf = tf.nn.elu(Y5_rbn) # No maxpooling within a resnet block
 
-Y6_res = tf.nn.conv2d(Y5_res, W6_res, strides =[1,1,1,1], padding = 'SAME') + B6_res
-Y6_res = Y6_res + tf.concat([Y4_res, Y4_res], 3) # Add input of resnet block
-Y6_res = tf.layers.batch_normalization(Y6_res, training = training, momentum = 0.5)
-Y6_res = tf.nn.elu(Y6_res)
-Y6_res = tf.nn.max_pool(Y6_res, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
-Y6_res = tf.nn.dropout(Y6_res, keep_prob = pkeep_conv)
+Y6_res = tf.nn.conv2d(Y5_raf, W6_res, strides =[1,1,1,1], padding = 'SAME') + B6_res
+Y6_rad = Y6_res + tf.concat([Y4_out, Y4_out], 3) # Add input of resnet block
+Y6_rbn = tf.layers.batch_normalization(Y6_rad, training = training, momentum = 0.5)
+Y6_raf = tf.nn.elu(Y6_rbn)
+Y6_rmp = tf.nn.max_pool(Y6_raf, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
+Y6_out = tf.nn.dropout(Y6_rmp, keep_prob = pkeep_conv)
 
 # Input image 14 x 14 x filters_6res
-Y7_res = tf.nn.conv2d(Y6_res, W7_res, strides =[1,1,1,1], padding = 'SAME') + B7_res
-Y7_res = tf.layers.batch_normalization(Y7_res, training = training, momentum = 0.5)
-Y7_res = tf.nn.elu(Y7_res) # No maxpooling within a resnet block
+Y7_res = tf.nn.conv2d(Y6_out, W7_res, strides =[1,1,1,1], padding = 'SAME') + B7_res
+Y7_rbn = tf.layers.batch_normalization(Y7_res, training = training, momentum = 0.5)
+Y7_raf = tf.nn.elu(Y7_rbn) # No maxpooling within a resnet block
 
-Y8_res = tf.nn.conv2d(Y7_res, W8_res, strides =[1,1,1,1], padding = 'SAME') + B8_res
-Y8_res = Y8_res + tf.concat([Y6_res, Y6_res], 3) # Add input of resnet block
-Y8_res = tf.layers.batch_normalization(Y8_res, training = training, momentum = 0.5)
-Y8_res = tf.nn.elu(Y8_res)
-Y8_res = tf.nn.max_pool(Y8_res, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
-Y8_res = tf.nn.dropout(Y8_res, keep_prob = pkeep_conv)
+Y8_res = tf.nn.conv2d(Y7_raf, W8_res, strides =[1,1,1,1], padding = 'SAME') + B8_res
+Y8_rad = Y8_res + tf.concat([Y6_out, Y6_out], 3) # Add input of resnet block
+Y8_rbn = tf.layers.batch_normalization(Y8_rad, training = training, momentum = 0.5)
+Y8_raf = tf.nn.elu(Y8_rbn)
+Y8_rmp = tf.nn.max_pool(Y8_raf, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
+Y8_out = tf.nn.dropout(Y8_rmp, keep_prob = pkeep_conv)
 
 # Input image 7 x 7 x filters_8res
-Y9_res = tf.nn.conv2d(Y8_res, W9_res, strides =[1,1,1,1], padding = 'SAME') + B9_res
-Y9_res = tf.layers.batch_normalization(Y9_res, training = training, momentum = 0.5)
-Y9_res = tf.nn.elu(Y9_res) # No maxpooling within a resnet block
+Y9_res = tf.nn.conv2d(Y8_out, W9_res, strides =[1,1,1,1], padding = 'SAME') + B9_res
+Y9_rbn = tf.layers.batch_normalization(Y9_res, training = training, momentum = 0.5)
+Y9_raf = tf.nn.elu(Y9_rbn) # No maxpooling within a resnet block
 
-Y10_res = tf.nn.conv2d(Y9_res, W10_res, strides =[1,1,1,1], padding = 'SAME') + B10_res
-Y10_res = Y10_res + tf.concat([Y8_res, Y8_res], 3) # Add input of resnet block
-Y10_res = tf.layers.batch_normalization(Y10_res, training = training, momentum = 0.5)
-Y10_res = tf.nn.elu(Y10_res)
+Y10_res = tf.nn.conv2d(Y9_raf, W10_res, strides =[1,1,1,1], padding = 'SAME') + B10_res
+Y10_rad = Y10_res + tf.concat([Y8_out, Y8_out], 3) # Add input of resnet block
+Y10_rbn = tf.layers.batch_normalization(Y10_rad, training = training, momentum = 0.5)
+Y10_raf = tf.nn.elu(Y10_rbn)
 #Y10_res = tf.nn.max_pool(Y10_res, ksize = [1,2,2,1], strides = [1,2,2,1], padding = 'SAME')
-Y10_res = tf.nn.dropout(Y10_res, keep_prob = pkeep_conv)
+Y10_out = tf.nn.dropout(Y10_raf, keep_prob = pkeep_conv)
 
 # Input image 7 x 7 x filters_10res
-Y7 = tf.reshape(Y10_res, shape = [-1, 7 * 7 * filters_10res])
-Y7 = tf.matmul(Y7, WFC_1) + BFC_1
-Y7 = tf.nn.elu(Y7)
-Y7= tf.nn.dropout(Y7, keep_prob = pkeep)
+Y7 = tf.reshape(Y10_out, shape = [-1, 7 * 7 * filters_10res])
+Y7_ff = tf.matmul(Y7, WFC_1) + BFC_1
+Y7_af = tf.nn.elu(Y7_ff)
+Y7_out = tf.nn.dropout(Y7_af, keep_prob = pkeep)
 
-Y8 = tf.matmul(Y7, WFC_2) + BFC_2
-Y8 = tf.nn.elu(Y8)
-Y8 = tf.nn.dropout(Y8, keep_prob = pkeep)
+Y8 = tf.matmul(Y7_out, WFC_2) + BFC_2
+Y8_af = tf.nn.elu(Y8)
+Y8_out = tf.nn.dropout(Y8_af, keep_prob = pkeep)
 
-Y_logits= tf.matmul(Y8, WO) + BO
+Y_logits= tf.matmul(Y8_out, WO) + BO
 Y_pred = tf.nn.softmax(Y_logits)
 
 # Calculate loss
