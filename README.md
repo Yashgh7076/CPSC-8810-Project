@@ -5,7 +5,8 @@ Yadnyesh Y. Luktuke and Eshaa D. Sood
 
 # Objective:
 1. Devise a model for classifying an image as bullying or not-bullying.
-2. Also, train the model to differentiate between the 9 categories of bullying i.e gossiping, isolation, laughing, pulling hair, punching,    lapping, stabbing, strangling and quarelling.
+2. Train the model to differentiate between the 9 categories of bullying i.e gossiping, isolation, laughing, pulling hair, punching,    lapping, stabbing, strangling and quarelling.
+3. Also, identify the bully and Victim in each image.
 
 # Network Architecture of Model:
 The model consists of 3 convolution layers and 2 fully connected layers. The architecture of the model is as follows:
@@ -51,6 +52,7 @@ Pillow
 Imageio
 
 Numpy
+Opencv
 
 # Results:
 ![Cross_confusion](https://user-images.githubusercontent.com/36894500/54441187-9bc6ef00-4712-11e9-80e1-814529b943cf.PNG)
