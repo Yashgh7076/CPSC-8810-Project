@@ -31,7 +31,7 @@ def skip_images(skip_list):
     return(number)
 
 def read_from_folder(filename, data, D, labels):
-    a = os.listdir(filename) # Sorted list of files
+    a = sorted(os.listdir(filename)) # Sorted list of files
     m = 1840
     
     j = 0
@@ -139,7 +139,8 @@ def read_from_folder(filename, data, D, labels):
                 
                 labels[l] = 0 # Victim => 0 
                 l = l + 1
-                
+    
+    return(l)            
 
 def flip_images(dataset):
     
@@ -276,26 +277,21 @@ def avg_smooth(dataset, region):
 
 # Read files and labels
 filename_1 = 'Labelling/'
-N = 1840
 
 with open ('DL_labels.json') as json_file:
     data = json.load(json_file)
 
-miss_list = [878, 899, 965, 1069, 1071, 1078, 1086, 1094, 1095 , 1096, 1097, 1098, 1104, 1133, 1144, 1165, 1184, 1201, 1210, 1221, 1222, 1225, 1229, 1252, 1286, 1327, 1329, 1334, 1361,1400, 1401, 1402, 1403, 1404, 1405, 1406, 1407 ,1414, 1422, 1424, 1430, 1431, 1432, 1433, 1434, 1435, 1436, 1437, 1438, 1439, 1440 , 1441, 1442, 1443 ,1444, 1445, 1446, 1447, 1448, 1449, 1450, 1451, 1452, 1453, 1453, 1454, 1455, 1456, 1457, 1458, 1459, 1460, 1495, 1514, 1524, 1546, 1560, 1562, 1566, 1567, 1579, 1580, 1581, 1590, 1592, 1593, 1596, 1599, 1623, 1628, 1641, 1649, 1652, 1655, 1660, 1686, 1724, 1725, 1733, 1742, 1750, 1756, 1759, 1762, 1773, 1783, 1786, 1800, 1801, 1811, 1817, 1818, 1831, 1836]
 
-skip_these = skip_images(miss_list)
-L10 = N - skip_these
+D = np.zeros(shape = (5000, newsize, newsize, 3))
+labels = np.zeros(shape = (5000))
 
-D = np.zeros(shape = (L10, newsize, newsize, 3))
-labels = np.zeros(shape = (L10))
+L10 = read_from_folder(filename_1, data, D, labels) 
 
 D_temp = np.zeros(shape = (L10, newsize, newsize, 3))
-labels_temp = np.zeros(L10)
+labels_temp = np.zeros(L10) 
 
-read_from_folder(filename_1, data, D, labels)  
-
-D_temp = D # Copy images + labels
-labels_temp = labels
+D_temp = D[0:L10, :, :, :] # Copy images + labels
+labels_temp = labels[0:L10, :, :, :]
 
 del D # Free images + labels temporarily
 del labels
