@@ -578,20 +578,16 @@ sess = tf.Session()
 sess.run(init)
 saver = tf.train.Saver()
 
-batch_size = 8 # 32 // Change code to check if code is in train/test
+batch_size = 32  
 
 epochs = 100
 
 initial_learn_rate = 0.0001
 
-#total = 700
-
-#train_loss = np.zeros(shape=(total))
-#train_acc = np.zeros(shape=(total))
-
-#test_loss = np.zeros(shape=(total))
-#test_acc = np.zeros(shape=(total))
-
+batch_acc = np.zeros(epochs)
+batch_loss = np.zeros(epochs)
+test_loss = np.zeros(epochs)
+test_acc = np.zeros(epochs)
 
 f = open('model_5.txt','w')
 f.write("Iteration Training_Loss Training_Acc Test_Loss Test_Acc \n")
@@ -620,13 +616,12 @@ for epoch in range(epochs):
     learn_rate = (1. / (1. + 0.89* epoch))*initial_learn_rate
 
     train_loss = 0
-    train_acc = 0
-
-    test_loss = 0
-    test_acc = 0
+    train_acc = 0    
 
     # Testing images also need to fed in batches to avoid "Tensor out of memory error"
     # Hence loss and accuracy over test dataset is reported in steps
+
+    batch_number = 0   
 
     for i in range(0, index, batch_size):
         #start, stop, step
@@ -639,30 +634,37 @@ for epoch in range(epochs):
         # Save model after each iteration
         save_path = saver.save(sess,"CPSC_8810/model_5/model_resnet")
 
-        # Test calculation initialization
-        acc = 0
-        loss = 0
+        # Write output to file after each iteration
+        f.write("%i %f %f\n" % (iters1, train_loss, train_acc))
+        iters1 = iters1 + 1 # update count of iterations
+
+        batch_acc[epoch] = batch_acc[epoch] + train_acc
+        batch_loss[epoch] = batch_loss[epoch] + train_loss
+        batch_number = batch_number + 1
+
+    batch_acc[epoch] = batch_acc[epoch]/batch_number
+    batch_loss[epoch] = batch_loss[epoch]/batch_number
+
+    # Test calculation initialization
+    acc = 0
+    loss = 0
+    # Line 569 - 578 => Testing loss # tf.reduce_mean is used hence there is no need to compute the average again
+    for j in range(0, number_tst, batch_size):
+        # start, stop, step
+        batch_Xtst, batch_Ytst = get_next_batch(j, test_data, test_labels, batch_size)
+        a,c = sess.run([accuracy,cross_entropy], feed_dict = {X: batch_Xtst, Y: batch_Ytst, pkeep: 1.0, pkeep_conv: 1.0, lr: learn_rate})
+        acc = acc + a
+        loss = loss + c
+       
+    test_acc[epoch] = (acc * batch_size)/ number_tst
+    test_loss[epoch] = (loss * batch_size)/ number_tst
         
-        # Line 569 - 578 => Testing loss # tf.reduce_mean is used hence there is no need to compute the average again
-        for j in range(0, number_tst, batch_size):
-            # start, stop, step
-            batch_Xtst, batch_Ytst = get_next_batch(j, test_data, test_labels, batch_size)
-            a,c = sess.run([accuracy,cross_entropy], feed_dict = {X: batch_Xtst, Y: batch_Ytst, pkeep: 1.0, pkeep_conv: 1.0, lr: learn_rate})
-            acc = acc + a
-            loss = loss + c
-            
-        
-        test_acc = (acc * batch_size)/ number_tst
-        test_loss = (loss * batch_size)/ number_tst
-        
-        # Print model train loss and accuracy after each iteration
-        print("Iteration",iters1,"Train Loss",train_loss,"Train Acc",train_acc) 
-        print("Iteration",iters1,"Test Loss",test_loss,"Test Acc",test_acc) 
-        print("\n")
-        f.write("%i %f %f %f %f\n" % (iters1, train_loss, train_acc, test_loss, test_acc))
-        iters1 = iters1 + 1 # update count of iterations 
+    # Print model train loss and accuracy after each iteration
+    print("Epoch",epoch,"Train Loss",batch_loss[epoch],"Train Acc",batch_acc[epoch]) 
+    print("Epoch",epoch,"Test Loss",test_loss[epoch],"Test Acc",test_acc[epoch]) 
+    print("\n")         
 
 f.close()        
-#np.savez('CPSC_8810/plots/iterations_plots_4.npz',name1 = train_acc, name2 = train_loss, name3 = test_acc, name4 = test_loss, name5 = iters1)
+np.savez('CPSC_8810/plots/resnet_4_128.npz',name1 = batch_acc, name2 = batch_loss, name3 = test_acc, name4 = test_loss)
 
 
