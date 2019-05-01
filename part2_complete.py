@@ -180,18 +180,9 @@ def get_next_batch(index, dataset, classes, batch_size):
     
     return(X_batch,Y_batch) 
 
-def augment_labels(labels, previous, L):
+def augment_labels(labels, previous, labels_temp, total_images):
     
-    labels[previous: previous + L[0]] = 1 # Do not use l10 -> total number of stanford images
-    labels[previous + L[0]: previous + L[1]] = 2
-    labels[previous + L[1]: previous + L[2]] = 3
-    labels[previous + L[2]: previous + L[3]] = 4
-    labels[previous + L[3]: previous + L[4]] = 5
-    labels[previous + L[4]: previous + L[5]] = 6
-    labels[previous + L[5]: previous + L[6]] = 7
-    labels[previous + L[6]: previous + L[7]] = 8
-    labels[previous + L[7]: previous + L[8]] = 9
-    labels[previous + L[8]: previous + L[9]] = 0
+    labels[previous: previous + total_images] = labels_temp 
 
 
 def standard_scaler(dataset):
@@ -318,7 +309,6 @@ D[0:L10,:,:,:] = D_temp
 labels[0:L10] = labels_temp
 
 del D_temp
-del labels_temp
 
 # Data augmentation part
 D[L10:(2*L10), :, :, :] = flip_images(D[0:L10, :, :, :]) # Flip images horizontally
@@ -339,22 +329,22 @@ D[(9*L10):(10*L10),:,:,:] = rotate_90(D[0:L10, :, :, :]) # Rotate + Additive Gau
 D[(9*L10):(10*L10),:,:,:] = add_noise(D[(9*L10):(10*L10), :, :, :], 0, 0.25)
 
 # Augment labels
-augment_labels(labels, L10, L) # augment labels for flipped images
+augment_labels(labels, L10, labels_temp, L10) # augment labels for flipped images
 
-augment_labels(labels, (2*L10), L) # augment labels for jitter images
+augment_labels(labels, (2*L10), labels_temp, L10) # augment labels for jitter images
 
-augment_labels(labels, (3*L10), L) # augment labels for flipped + noise images
+augment_labels(labels, (3*L10), labels_temp, L10) # augment labels for flipped + noise images
 
-augment_labels(labels, (4*L10), L)
+augment_labels(labels, (4*L10), labels_temp, L10)
 
-augment_labels(labels, (5*L10), L)
+augment_labels(labels, (5*L10), labels_temp, L10)
 
-augment_labels(labels, (6*L10), L)
+augment_labels(labels, (6*L10), labels_temp, L10)
 
-augment_labels(labels, (7*L10), L)
+augment_labels(labels, (7*L10), labels_temp, L10)
 
-augment_labels(labels, (8*L10), L)
+augment_labels(labels, (8*L10), labels_temp, L10)
 
-augment_labels(labels, (9*L10), L)
+augment_labels(labels, (9*L10), labels_temp, L10)
 
 
