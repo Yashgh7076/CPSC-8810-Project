@@ -1,5 +1,8 @@
 # CPSC-8810-Project
-Deep Learning Project
+Deep Learning Project for CPSC-8810: Deep Learning at Clemson University.
+
+WARNING! Students, do not copy the material from this repository for your own projects as that constitutes plagiarism. However please feel free to browse our code and references and hopefully you will improve in building your own deep learning models. Please feel free to cite this repository if you find the material that we've discussed useful.
+
 # Contributors:
 Yadnyesh Y. Luktuke and Eshaa D. Sood
 
